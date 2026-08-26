@@ -15,7 +15,7 @@ interface Experience {
 const experiences: Experience[] = [
   {
     company: "Universidad Nacional de Colombia",
-    period: "Feb 2026 – Present",
+    period: "Jan 2026 – Present",
     title: {
       en: "Teaching Assistant — Statistics II",
       es: "Monitor — Estadística II",
@@ -38,7 +38,7 @@ const experiences: Experience[] = [
   },
   {
     company: "Impossible Code",
-    period: "Nov 2025 – Present",
+    period: "Nov 2025 – Aug 2026",
     title: {
       en: "Software Engineer",
       es: "Ingeniero de Software",
@@ -134,7 +134,7 @@ interface Education {
 const education: Education[] = [
   {
     institution: "Universidad Nacional de Colombia",
-    period: "2021 – Present",
+    period: "2021 – 2026",
     degree: {
       en: "Bachelor of Systems and Computer Science Engineering",
       es: "Pregrado en Ingeniería de Sistemas e Informática",

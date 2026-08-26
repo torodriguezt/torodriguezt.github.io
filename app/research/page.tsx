@@ -17,21 +17,6 @@ interface Paper {
 
 const papers: Paper[] = [
   {
-    collaborators: "With Johnatan Cardona Jiménez PhD, María Clara Lucía Zuluaga Vélez PhD, Francisco Javier Rodríguez Córtez PhD",
-    status: "In preparation",
-    tags: ["Bayesian Statistics", "MCMC", "EM", "Variational Bayes", "Geoscience"],
-    title: {
-      en: "Bayesian Modelling for Contamination in Geoscientific Applications",
-      es: "Modelado Bayesiano para Contaminación en Aplicaciones Geocientíficas",
-      pt: "Modelagem Bayesiana para Contaminação em Aplicações Geocientíficas",
-    },
-    description: {
-      en: "Bayesian spatial model for environmental contamination using MCMC, EM algorithms, and Variational Bayes inference methods applied to geoscientific data.",
-      es: "Modelo espacial bayesiano para contaminación ambiental usando MCMC, algoritmos EM y métodos de inferencia de Bayes Variacional aplicados a datos geocientíficos.",
-      pt: "Modelo espacial bayesiano para contaminação ambiental usando MCMC, algoritmos EM e métodos de inferência de Bayes Variacional aplicados a dados geocientíficos.",
-    },
-  },
-  {
     collaborators: "With Johnatan Cardona Jiménez PhD, Alejandra Estefanía Patiño Hoyos PhD, Simón Ruiz Martínez PhD",
     status: "Submitted to Social Sciences & Humanities Open",
     tags: ["Bayesian Statistics", "Multinomial", "Spatio-temporal", "Public Health", "Social Science"],
@@ -48,7 +33,7 @@ const papers: Paper[] = [
   },
   {
     collaborators: "With Johnatan Cardona Jiménez PhD",
-    status: "Available on arXiv",
+    status: "Submitted to Computational Statistics & Data Analysis",
     link: "https://arxiv.org/abs/2607.10432",
     tags: ["Bayesian Statistics", "Quantile Regression", "EM", "INLA", "Scalable Inference"],
     title: {
@@ -64,7 +49,7 @@ const papers: Paper[] = [
   },
   {
     collaborators: "With Johnatan Cardona Jiménez PhD, Kelly Christina Mota Gonçalves PhD, Marcus Lavagnole Nascimiento PhD",
-    status: "In preparation",
+    status: "Submitted to Journal of Statistical Software",
     tags: ["R", "C++", "Bayesian", "Quantile Regression", "Survey Statistics"],
     title: {
       en: "bayesQRsurvey: Bayesian Quantile Regression Approach for Complex Survey Data in R",
@@ -75,6 +60,36 @@ const papers: Paper[] = [
       en: "Software paper presenting bayesQRsurvey, an R package implementing Bayesian quantile regression under informative sampling designs using MCMC and EM algorithms with a C++ backend.",
       es: "Artículo de software presentando bayesQRsurvey, un paquete de R que implementa regresión cuantílica bayesiana bajo diseños de muestreo informativos usando algoritmos MCMC y EM con backend en C++.",
       pt: "Artigo de software apresentando bayesQRsurvey, um pacote R que implementa regressão quantílica bayesiana sob desenhos de amostragem informativos usando algoritmos MCMC e EM com backend em C++.",
+    },
+  },
+  {
+    collaborators: "With Johnatan Cardona Jiménez PhD, Alejandra Estefanía Patiño Hoyos PhD, Simón Ruiz Martínez PhD",
+    status: "In preparation",
+    tags: ["Bayesian Statistics", "Spatio-temporal", "COVID-19", "Public Health", "Urban Analytics"],
+    title: {
+      en: "Dynamic spatial coupling of violence against women in Medellín during the COVID-19 lockdown",
+      es: "Acoplamiento espacial dinámico de la violencia contra la mujer en Medellín durante el confinamiento por COVID-19",
+      pt: "Acoplamento espacial dinâmico da violência contra a mulher em Medellín durante o confinamento pela COVID-19",
+    },
+    description: {
+      en: "Spatio-temporal Bayesian model assessing how patterns of violence against women became spatially coupled across the neighbourhoods of Medellín during the COVID-19 lockdown.",
+      es: "Modelo bayesiano espacio-temporal que evalúa cómo los patrones de violencia contra la mujer se acoplaron espacialmente entre los barrios de Medellín durante el confinamiento por COVID-19.",
+      pt: "Modelo bayesiano espaço-temporal que avalia como os padrões de violência contra a mulher se acoplaram espacialmente entre os bairros de Medellín durante o confinamento pela COVID-19.",
+    },
+  },
+  {
+    collaborators: "With Johnatan Cardona Jiménez PhD, María Clara Lucía Zuluaga Vélez PhD, Francisco Javier Rodríguez Córtez PhD",
+    status: "In preparation",
+    tags: ["Bayesian Statistics", "MCMC", "EM", "Variational Bayes", "Geoscience"],
+    title: {
+      en: "Bayesian Modelling for Contamination in Geoscientific Applications",
+      es: "Modelado Bayesiano para Contaminación en Aplicaciones Geocientíficas",
+      pt: "Modelagem Bayesiana para Contaminação em Aplicações Geocientíficas",
+    },
+    description: {
+      en: "Bayesian spatial model for environmental contamination using MCMC, EM algorithms, and Variational Bayes inference methods applied to geoscientific data.",
+      es: "Modelo espacial bayesiano para contaminación ambiental usando MCMC, algoritmos EM y métodos de inferencia de Bayes Variacional aplicados a datos geocientíficos.",
+      pt: "Modelo espacial bayesiano para contaminação ambiental usando MCMC, algoritmos EM e métodos de inferência de Bayes Variacional aplicados a dados geocientíficos.",
     },
   },
 ]
