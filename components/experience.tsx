@@ -25,7 +25,7 @@ export default function Experience() {
         >
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1">
             <h3 className="text-lg font-medium text-gray-900">Software Engineer</h3>
-            <span className="text-sm text-gray-400 font-mono">Nov 2025 – Present</span>
+            <span className="text-sm text-gray-400 font-mono">Nov 2025 – Aug 2026</span>
           </div>
 
           <p className="text-gray-500 text-sm mb-5">Impossible Code</p>

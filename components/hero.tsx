@@ -15,7 +15,7 @@ const content = {
   en: {
     tagline:
       "My work focuses on developing models and software at the intersection of Bayesian statistics and machine learning, with applications ranging from spatio-temporal systems to deep learning.",
-    bio: "I'm a Software Engineer at <strong>Impossible Code</strong>, building clinical software for cancer sample analysis. I'm also pursuing a dual degree in <strong>Systems Engineering</strong> and <strong>Statistics</strong> at Universidad Nacional de Colombia.",
+    bio: "I worked as a Software Engineer at <strong>Impossible Code</strong>, building clinical software for cancer sample analysis. I completed a degree in <strong>Systems and Computer Science Engineering</strong> and am finishing a second degree in <strong>Statistics</strong> at Universidad Nacional de Colombia.",
     interestsLabel: "Interests",
     interests: "Bayesian statistics · Machine learning · Deep learning · Spatio-temporal modeling",
     location: "Medellín, Colombia",
@@ -23,7 +23,7 @@ const content = {
   es: {
     tagline:
       "Mi trabajo se enfoca en desarrollar modelos y software en la intersección de la estadística bayesiana y el aprendizaje automático, con aplicaciones que van desde sistemas espacio-temporales hasta aprendizaje profundo.",
-    bio: "Soy Ingeniero de Software en <strong>Impossible Code</strong>, donde desarrollo software clínico para análisis de muestras de cáncer. Además curso una doble titulación en <strong>Ingeniería de Sistemas</strong> y <strong>Estadística</strong> en la Universidad Nacional de Colombia.",
+    bio: "Trabajé como Ingeniero de Software en <strong>Impossible Code</strong>, donde desarrollé software clínico para análisis de muestras de cáncer. Terminé mi pregrado en <strong>Ingeniería de Sistemas e Informática</strong> y actualmente curso un segundo pregrado en <strong>Estadística</strong> en la Universidad Nacional de Colombia.",
     interestsLabel: "Intereses",
     interests: "Estadística bayesiana · Aprendizaje automático · Aprendizaje profundo · Modelado espacio-temporal",
     location: "Medellín, Colombia",
@@ -31,7 +31,7 @@ const content = {
   pt: {
     tagline:
       "Meu trabalho foca no desenvolvimento de modelos e software na interseção entre estatística bayesiana e aprendizado de máquina, com aplicações que vão de sistemas espaço-temporais ao aprendizado profundo.",
-    bio: "Sou Engenheiro de Software na <strong>Impossible Code</strong>, onde desenvolvo software clínico para análise de amostras de câncer. Também curso uma dupla graduação em <strong>Engenharia de Sistemas</strong> e <strong>Estatística</strong> na Universidad Nacional de Colombia.",
+    bio: "Trabalhei como Engenheiro de Software na <strong>Impossible Code</strong>, onde desenvolvi software clínico para análise de amostras de câncer. Concluí minha graduação em <strong>Engenharia de Sistemas e Informática</strong> e atualmente curso uma segunda graduação em <strong>Estatística</strong> na Universidad Nacional de Colombia.",
     interestsLabel: "Interesses",
     interests: "Estatística bayesiana · Aprendizado de máquina · Aprendizado profundo · Modelagem espaço-temporal",
     location: "Medellín, Colômbia",

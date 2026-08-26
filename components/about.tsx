@@ -6,8 +6,8 @@ import { useLanguage } from "@/contexts/language-context"
 const ui = {
   en: {
     title: "About",
-    bio1: 'I work at the intersection of Bayesian statistics and machine learning. Currently a Software Engineer at <strong>Impossible Code</strong>, where I build clinical software for cancer sample analysis and architect its integration with AI-based systems.',
-    bio2: "I'm pursuing a dual degree in <strong>Systems Engineering</strong> and <strong>Statistics</strong> at Universidad Nacional de Colombia, where my research focuses on spatio-temporal Bayesian models applied to environmental science, public health, and education.",
+    bio1: 'I work at the intersection of Bayesian statistics and machine learning. Most recently a Software Engineer at <strong>Impossible Code</strong>, where I built clinical software for cancer sample analysis and architected its integration with AI-based systems.',
+    bio2: "I completed a degree in <strong>Systems and Computer Science Engineering</strong> and am finishing a second degree in <strong>Statistics</strong> at Universidad Nacional de Colombia, where my research focuses on spatio-temporal Bayesian models applied to environmental science, public health, and education.",
     bio3: "My interests span machine learning, deep learning, Bayesian statistics, and spatio-temporal modeling. Outside of work, I watch movies, read books, and practice photography.",
     skillBayesian: "Bayesian Statistics",
     skillBayesianContent: "R, C++, Stan, MCMC, EM, Variational Bayes, Spatio-temporal Models, INLA",
@@ -20,8 +20,8 @@ const ui = {
   },
   es: {
     title: "Acerca",
-    bio1: 'Trabajo en la intersección de la estadística bayesiana y el aprendizaje automático. Actualmente soy Ingeniero de Software en <strong>Impossible Code</strong>, donde desarrollo software clínico para análisis de muestras de cáncer y diseño su integración con sistemas basados en IA.',
-    bio2: "Estoy cursando una doble carrera en <strong>Ingeniería de Sistemas</strong> y <strong>Estadística</strong> en la Universidad Nacional de Colombia, donde mi investigación se centra en modelos bayesianos espacio-temporales aplicados a ciencias ambientales, salud pública y educación.",
+    bio1: 'Trabajo en la intersección de la estadística bayesiana y el aprendizaje automático. Más recientemente fui Ingeniero de Software en <strong>Impossible Code</strong>, donde desarrollé software clínico para análisis de muestras de cáncer y diseñé su integración con sistemas basados en IA.',
+    bio2: "Terminé mi pregrado en <strong>Ingeniería de Sistemas e Informática</strong> y actualmente curso un segundo pregrado en <strong>Estadística</strong> en la Universidad Nacional de Colombia, donde mi investigación se centra en modelos bayesianos espacio-temporales aplicados a ciencias ambientales, salud pública y educación.",
     bio3: "Mis intereses abarcan aprendizaje automático, aprendizaje profundo, estadística bayesiana y modelado espacio-temporal. Fuera del trabajo, veo películas, leo libros y practico fotografía.",
     skillBayesian: "Estadística Bayesiana",
     skillBayesianContent: "R, C++, Stan, MCMC, EM, Bayes Variacional, Modelos Espacio-temporales, INLA",
@@ -34,8 +34,8 @@ const ui = {
   },
   pt: {
     title: "Sobre",
-    bio1: 'Trabalho na interseção entre estatística bayesiana e aprendizado de máquina. Atualmente sou Engenheiro de Software na <strong>Impossible Code</strong>, onde desenvolvo software clínico para análise de amostras de câncer e projeto sua integração com sistemas baseados em IA.',
-    bio2: "Estou cursando uma dupla graduação em <strong>Engenharia de Sistemas</strong> e <strong>Estatística</strong> na Universidad Nacional de Colombia, onde minha pesquisa foca em modelos bayesianos espaço-temporais aplicados a ciências ambientais, saúde pública e educação.",
+    bio1: 'Trabalho na interseção entre estatística bayesiana e aprendizado de máquina. Mais recentemente fui Engenheiro de Software na <strong>Impossible Code</strong>, onde desenvolvi software clínico para análise de amostras de câncer e projetei sua integração com sistemas baseados em IA.',
+    bio2: "Concluí minha graduação em <strong>Engenharia de Sistemas e Informática</strong> e atualmente curso uma segunda graduação em <strong>Estatística</strong> na Universidad Nacional de Colombia, onde minha pesquisa foca em modelos bayesianos espaço-temporais aplicados a ciências ambientais, saúde pública e educação.",
     bio3: "Meus interesses abrangem aprendizado de máquina, aprendizado profundo, estatística bayesiana e modelagem espaço-temporal. Fora do trabalho, assisto filmes, leio livros e pratico fotografia.",
     skillBayesian: "Estatística Bayesiana",
     skillBayesianContent: "R, C++, Stan, MCMC, EM, Bayes Variacional, Modelos Espaço-temporais, INLA",
