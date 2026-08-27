@@ -69,8 +69,9 @@ export default function ResearchPage() {
               <h3 className="max-w-[62ch] text-pretty text-[16.5px] font-semibold leading-[1.4] tracking-[-0.01em] text-ink">
                 {grant.title}
               </h3>
-              <p className="mt-2 text-[14.5px] leading-[1.7] text-ink2">
-                {grant.role} · Director: {grant.director}
+              <p className="mt-2 text-[14.5px] leading-[1.7] text-ink2">Role: {grant.role}</p>
+              <p className="text-[14.5px] leading-[1.7] text-ink2">
+                Director: {grant.director}
               </p>
               <p className="mt-1.5 font-mono text-[11.5px] leading-[1.6] text-dim">
                 {grant.sponsor} · {grant.amount}
