@@ -1,5 +1,5 @@
 const PARA_1 =
-  "I hold a degree in Systems and Computer Science Engineering and am finishing my degree in Statistics at the National University of Colombia. Most of my work focuses on computational statistics, in particular approximate Bayesian inference for models where exact computation isn't feasible. The applications I have worked on are mostly spatio-temporal modelling and quantile regression, and more recently uncertainty quantification. I've also started to take an interest in Bayesian deep learning."
+  "I hold a degree in Systems and Computer Science Engineering and am finishing my degree in Statistics at the National University of Colombia. Most of my work focuses on computational statistics, in particular approximate Bayesian inference for models where exact computation isn't feasible. The applications I have worked on are mostly spatio-temporal modelling and quantile regression, and more recently machine learning and uncertainty quantification. I've also started to take an interest in Bayesian deep learning and high-performance computing."
 
 const PARA_2 =
   "I've worked as a software engineer on clinical software for cancer sample analysis and its integration with AI-based systems, and on neural networks applied to satellite imagery to predict construction sites."
@@ -8,11 +8,11 @@ const AREAS = [
   { label: "Bayesian computation", items: "MCMC, INLA, EM algorithm, approximate inference" },
   {
     label: "Statistical modelling",
-    items: "Spatio-temporal models, quantile regression, uncertainty quantification",
+    items: "Spatio-temporal models, quantile regression, machine learning, uncertainty quantification",
   },
   {
     label: "Computing",
-    items: "Algorithms and data structures, parallel computing, databases, systems",
+    items: "Algorithms and data structures, high-performance computing, databases, systems",
   },
 ]
 
