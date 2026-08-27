@@ -1,5 +1,5 @@
 import PageHeader from "@/components/page-header"
-import { CONFERENCES, PAPERS } from "@/lib/data/research"
+import { CONFERENCES, GRANTS, PAPERS } from "@/lib/data/research"
 
 export default function ResearchPage() {
   return (
@@ -52,6 +52,32 @@ export default function ResearchPage() {
             )
           })}
         </ol>
+      </section>
+
+      <section className="rise-3 mx-auto max-w-[900px] px-6 pt-[52px] sm:px-8">
+        <div className="flex items-baseline gap-3.5 border-b border-rule pb-2">
+          <h2 className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink">Grants</h2>
+        </div>
+
+        {GRANTS.map((grant) => (
+          <div
+            key={grant.title}
+            className="grid gap-3 border-b border-rule py-[26px] sm:grid-cols-[88px_1fr] sm:gap-6"
+          >
+            <span className="font-mono text-[13px] text-ink sm:pt-0.5">{grant.years}</span>
+            <div>
+              <h3 className="max-w-[62ch] text-pretty text-[16.5px] font-semibold leading-[1.4] tracking-[-0.01em] text-ink">
+                {grant.title}
+              </h3>
+              <p className="mt-2 text-[14.5px] leading-[1.7] text-ink2">
+                {grant.role} · Director: {grant.director}
+              </p>
+              <p className="mt-1.5 font-mono text-[11.5px] leading-[1.6] text-dim">
+                {grant.sponsor} · {grant.amount}
+              </p>
+            </div>
+          </div>
+        ))}
       </section>
 
       <section className="rise-3 mx-auto max-w-[900px] px-6 pb-24 pt-[52px] sm:px-8">
