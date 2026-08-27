@@ -34,7 +34,7 @@ export const JOBS: Job[] = [
   {
     org: "ic", kind: "engineering", period: "Nov 2025 – Aug 2026",
     title: "Software Engineer",
-    summary: "Built frontend and backend components for clinical software used by medical teams: database schema updates integrated with existing clinical data models, concurrency control for multi-user workflows, and a disease ontology for structured cancer sample classification. I also architected the integration with external AI-based software for protein-level cancer analysis."
+    summary: "Built frontend and backend components for clinical software used by medical teams: database schema updates integrated with existing clinical data models, concurrency control for multi-user workflows, and a disease ontology for structured cancer sample classification. I also architected the integration with external AI-based software for protein-level cancer analysis, and developed computer vision models in Python to predict construction site locations from satellite imagery."
   },
   {
     org: "unal", kind: "teaching", period: "Mar 2025 – Jul 2025",

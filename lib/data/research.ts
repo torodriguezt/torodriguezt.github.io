@@ -62,6 +62,26 @@ export const PAPERS: Paper[] = [
   }
 ];
 
+export interface Grant {
+  years: string
+  title: string
+  role: string
+  director: string
+  sponsor: string
+  amount: string
+}
+
+export const GRANTS: Grant[] = [
+  {
+    years: "2026 – 2027",
+    title: "Spatio-Temporal Modeling of High Quantiles of PM2.5 Pollution in the Aburrá Valley",
+    role: "Proposal author",
+    director: "Johnatan Cardona Jiménez PhD",
+    sponsor: "National University of Colombia, Medellín (HERMES Project 4275)",
+    amount: "USD $15,800",
+  },
+]
+
 export const CONFERENCES: ConferenceYear[] = [
   {
     year: "2026",
