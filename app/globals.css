@@ -2,22 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Design tokens ──────────────────────────────────────────────────────────
+   Ported from the "Rediseño sitio minimalista" canvas. Light is the base;
+   [data-theme="dark"] on <html> swaps the palette. Names avoid the shadcn
+   variables further down (--muted, --accent, --border are already taken).     */
+:root {
+  --bg: #FFFDFC;
+  --panel: #FFFFFF;
+  --fg: #241A13;
+  --fg2: #5C4B40;
+  --dim: #9A8A7F;
+  --line: rgba(36, 26, 19, 0.10);
+  --brand: #E67348;
+  /* Posterior mean and observations in the banner: cool, so they read apart
+     from the warm posterior draws around them. */
+  --curve-mean: #1B7A4B;
+}
+
+:root[data-theme="dark"] {
+  --bg: #121110;
+  --panel: #191716;
+  --fg: #F2EDE9;
+  --fg2: #B5A79D;
+  --dim: #7E736B;
+  --line: rgba(242, 237, 233, 0.12);
+  --brand: #FF8A65;
+  --curve-mean: #5FD08A;
+}
+
 html {
   scroll-behavior: smooth;
+  background-color: var(--bg);
 }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: #ffffff;
-  color: #111827;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  background-color: var(--bg);
+  color: var(--fg);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 ::selection {
-  background-color: #111827;
-  color: #ffffff;
+  background-color: var(--brand);
+  color: #fff;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .rise {
+    animation: none !important;
+  }
 }
 
 @layer base {
@@ -45,17 +95,21 @@ body {
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground antialiased;
-  }
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  /* Entrance used across pages; `.rise-2` / `.rise-3` stagger the sections. */
+  .rise {
+    animation: rise 0.6s ease-out both;
+  }
+  .rise-2 {
+    animation: rise 0.6s ease-out 0.06s both;
+  }
+  .rise-3 {
+    animation: rise 0.6s ease-out 0.12s both;
   }
 }
