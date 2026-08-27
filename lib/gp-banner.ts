@@ -30,10 +30,23 @@ const DRAW_STEP = 0.02
 // The posterior and its samples are built once per page load and reused by
 // every banner: same curves on every route, one Cholesky instead of one per
 // navigation, and the draw-in only plays the first time.
-let gpCache: { mean: Float64Array; L: Float64Array[] } | null = null
-const curvesCache = new Map<number, Curve[]>()
-let sharedT0 = 0
-let hasDrawnIn = false
+//
+// This lives on globalThis rather than in module scope on purpose: a module can
+// be instantiated more than once (duplicated across route chunks, re-evaluated
+// by Fast Refresh), and each copy would bring its own blank cache and replay the
+// draw-in. A page load is the only thing that clears this.
+interface BannerScene {
+  gp: { mean: Float64Array; L: Float64Array[] } | null
+  curves: Map<number, Curve[]>
+  t0: number
+  /** How far the draw-in got, so navigating mid-stroke picks it up there. */
+  progress: number
+}
+
+const globalScope = globalThis as unknown as { __gpBannerScene?: BannerScene }
+const scene: BannerScene =
+  globalScope.__gpBannerScene ??
+  (globalScope.__gpBannerScene = { gp: null, curves: new Map(), t0: 0, progress: 0 })
 
 export interface BannerHandle {
   redraw: () => void
@@ -137,9 +150,9 @@ export function startBanner(
   const grid: number[] = []
   for (let i = 0; i < n; i++) grid.push(i / (n - 1))
 
-  const gp = gpCache ?? (gpCache = gpPosterior(grid, ANCHORS_X, ANCHORS_Y, 0.098, 1.7))
+  const gp = scene.gp ?? (scene.gp = gpPosterior(grid, ANCHORS_X, ANCHORS_Y, 0.098, 1.7))
 
-  let cached = curvesCache.get(count)
+  let cached = scene.curves.get(count)
   if (!cached) {
     cached = []
     for (let s = 0; s < count; s++) {
@@ -154,17 +167,17 @@ export function startBanner(
         pace: 0.85 + Math.random() * 0.4,
       })
     }
-    curvesCache.set(count, cached)
+    scene.curves.set(count, cached)
   }
   // A const so the closures below see a non-nullable value.
   const curves = cached
   const reduced =
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  if (!sharedT0 && typeof performance !== "undefined") sharedT0 = performance.now()
+  if (!scene.t0 && typeof performance !== "undefined") scene.t0 = performance.now()
   const state = {
-    progress: reduced || hasDrawnIn ? DRAW_END : 0,
-    t0: sharedT0,
+    progress: reduced ? DRAW_END : scene.progress,
+    t0: scene.t0,
     dims: { w: 1, h: 1 },
     raf: 0,
   }
@@ -269,7 +282,7 @@ export function startBanner(
     lastFrame = ts
     if (state.progress < DRAW_END) {
       state.progress += DRAW_STEP
-      if (state.progress >= DRAW_END) hasDrawnIn = true
+      scene.progress = state.progress
     }
     draw()
   }
@@ -315,7 +328,7 @@ export function startBanner(
   }
 
   if (reduced) {
-    hasDrawnIn = true
+    scene.progress = DRAW_END
     draw()
   }
   else if (!observer) play()
