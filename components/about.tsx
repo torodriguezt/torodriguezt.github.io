@@ -12,7 +12,7 @@ const AREAS = [
   },
   {
     label: "Computing",
-    items: "Algorithms and data structures, high-performance computing, databases, systems",
+    items: "Algorithms and data structures, parallel computing, databases, systems",
   },
 ]
 

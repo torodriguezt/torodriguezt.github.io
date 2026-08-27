@@ -22,7 +22,7 @@ export default function Hero() {
               {INTRO}
             </p>
 
-            <div className="mt-[30px] flex flex-wrap gap-2.5">
+            <div className="mt-[30px] flex flex-wrap items-center gap-x-6 gap-y-3">
               <Link
                 href="/research"
                 className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-[11px] text-[13.5px] font-semibold text-paper transition-opacity hover:opacity-[0.86]"
@@ -31,9 +31,9 @@ export default function Hero() {
               </Link>
               <Link
                 href="/projects"
-                className="inline-flex items-center rounded-full border border-rule px-5 py-[11px] text-[13.5px] font-semibold text-ink transition-colors hover:border-brand hover:text-brand"
+                className="inline-flex items-center gap-1.5 border-b border-rule px-1 py-[11px] text-[13.5px] font-medium text-ink2 transition-colors hover:border-brand hover:text-ink"
               >
-                Projects
+                Projects <span className="font-mono text-[12px]">↗</span>
               </Link>
             </div>
           </div>
