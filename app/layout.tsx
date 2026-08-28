@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google"
+import "katex/dist/katex.min.css"
 import "./globals.css"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
 }
 
 // Runs before first paint so the stored theme never flashes.
-const themeScript = `(function(){try{var t=localStorage.getItem('tr-theme');document.documentElement.setAttribute('data-theme',t==='light'||t==='dark'?t:'dark')}catch(e){document.documentElement.setAttribute('data-theme','dark')}})()`
+const themeScript = `(function(){try{var t=localStorage.getItem('tr-theme');document.documentElement.setAttribute('data-theme',t==='light'||t==='dark'?t:'light')}catch(e){document.documentElement.setAttribute('data-theme','light')}})()`
 
 export default function RootLayout({
   children,
@@ -32,7 +33,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" data-theme="dark" className="scroll-smooth">
+    // suppressHydrationWarning: the script below rewrites data-theme before
+    // React hydrates, so with a stored light theme the attribute legitimately
+    // differs from the one rendered here. Suppressing it covers this element's
+    // own attributes only — mismatches anywhere else still surface.
+    <html lang="en" data-theme="light" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
