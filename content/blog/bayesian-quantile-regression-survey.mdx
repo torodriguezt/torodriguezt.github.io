@@ -1,0 +1,213 @@
+---
+title: "Quantile Regression for Complex Survey Data"
+date: "2026-08-28"
+category: "Technical"
+tags: ["Bayesian", "Quantile Regression", "Survey Sampling", "R"]
+description: "An adaptation of the bayesQRsurvey vignette, with the figures rebuilt so they can be read interactively rather than as fixed plots."
+---
+
+Least squares estimates the conditional mean. For anthropometric data the
+questions that matter are usually about the tails: which children are falling
+behind, which are growing unusually fast. Those are questions about the 10th and
+90th percentiles, and a mean regression does not answer them.
+
+Quantile regression does. Under a complex survey design it needs an additional
+adjustment, because the sample is not a miniature of the population.
+
+<Callout variant="note" title="About this post">
+This is an adaptation of the vignette for **bayesQRsurvey**, an R package by
+[Tomás Rodríguez Taborda](https://torodriguezt.github.io), Johnatan Cardona
+Jiménez, Marcus L. Nascimento and Kelly C. M. Gonçalves, available
+[on CRAN](https://cran.r-project.org/web/packages/bayesQRsurvey/index.html).
+Every number plotted below comes from `scripts/extract-bqr.R`, which refits the
+vignette's models and writes the coefficients to JSON. The figures are the
+package's output, not a redrawing of a printed table.
+</Callout>
+
+## Informative sampling
+
+In a complex survey, units are not selected with equal probability. When the
+selection probability is related to the response, the sample is not
+representative of the population, and an analysis that ignores the design is
+biased regardless of sample size. This is *informative* sampling.
+
+The common approach is to fit the model and correct afterwards. `bayesQRsurvey`
+introduces the survey weights into the working likelihood, so the design is
+accounted for in the posterior rather than in a subsequent adjustment.
+
+The package covers two model families:
+
+- **`bqr.svy()`** fits a single response by MCMC, following Nascimento and
+  Gonçalves (2024). Three working likelihoods are available through `method`:
+  `"ald"`, based on the asymmetric Laplace distribution, which is the default and
+  the fastest, plus `"score"` and `"approximate"`, which build a design-based
+  variance into the likelihood.
+- **`mo.bqr.svy()`** fits a vector response by an EM algorithm, following the
+  directional approach of Nascimento and Gonçalves (2026). With more than one
+  response a quantile is a nested family of convex regions rather than a curve.
+
+## Data
+
+`Anthro` holds anthropometric measurements of 985 children, with the survey
+weight in `dweight`. Age is recorded in months and converted to years.
+
+```r title="setup.R" showLineNumbers
+library("bayesQRsurvey")
+
+data("Anthro", package = "bayesQRsurvey")
+
+Anthro$age <- Anthro$age / 12
+Anthro$sex <- factor(Anthro$sex, levels = c("1", "0"),
+                     labels = c("Boys", "Girls"))
+```
+
+## Single-output models
+
+Weight is modelled as a quadratic function of age, adjusting for sex. The
+sampling weights are passed through `weights` and the levels through `quantile`.
+
+```r title="fit-ald.R" showLineNumbers {2-4}
+set.seed(50)
+fit_ald <- bqr.svy(wgt ~ age + I(age^2) + sex, weights = dweight,
+                   data = Anthro, quantile = c(0.1, 0.5, 0.9),
+                   niter = 6000, burnin = 3000, thin = 1, verbose = FALSE)
+```
+
+The design enters as an argument rather than as a post-hoc correction.
+
+The fitted quantiles are three separate curves, not one curve with error bands.
+
+<Wide>
+  <QuantileCurves n={1} />
+</Wide>
+
+Each curve estimates where that percentile of the conditional distribution sits.
+The distance between the outer two is the estimated spread, and it is not
+constant: it reaches a minimum of 3.38 kg at 17 months and rises to 5.49 kg for
+the oldest children in the sample. This is a statement about dispersion obtained
+without modelling a variance.
+
+## Coefficients across quantile levels
+
+Fitting over a grid of levels shows how each coefficient varies through the
+conditional distribution.
+
+<Wide>
+  <CoefficientPaths n={2} />
+</Wide>
+
+The quadratic term decreases in magnitude monotonically, from −0.457 at τ = 0.05
+to −0.091 at τ = 0.95. Growth decelerates less for the heaviest children. At the
+highest level the credible interval is [−0.266, 0.082] and includes zero, so in
+the upper tail the quadratic term is not distinguishable from a linear one.
+
+The sex effect is flat across levels: −0.516, −0.559, −0.622, −0.586, −0.573,
+−0.508, −0.557. Girls weigh less at every percentile by approximately the same
+amount. Only one of the two covariates interacts with the quantile level.
+
+## Estimation methods
+
+The asymmetric Laplace likelihood is a working likelihood, not a claim that
+weight is ALD-distributed. The `"score"` and `"approximate"` methods build a
+design-based variance into the likelihood instead, and require longer chains.
+Both are adaptive Metropolis-Hastings samplers.
+
+At the median the two agree:
+
+| Coefficient | ALD | 95% CI | Score | 95% CI | Width ratio |
+|---|---|---|---|---|---|
+| Intercept | 6.161 | 5.813 – 6.504 | 6.113 | 5.641 – 6.579 | 1.36 |
+| age | 3.545 | 3.206 – 3.909 | 3.599 | 3.121 – 4.085 | 1.37 |
+| age² | −0.288 | −0.363 – −0.218 | −0.298 | −0.402 – −0.201 | 1.39 |
+| sexGirls | −0.586 | −0.805 – −0.372 | −0.608 | −0.877 – −0.305 | 1.32 |
+
+The point estimates differ by less than a third of a posterior standard
+deviation. The score intervals are about a third wider, and the ratio is similar
+across coefficients, so the ALD understates uncertainty by roughly a constant
+factor rather than in one coefficient in particular.
+
+Convergence diagnostics are computed for every level and stored in `$diagnosis`.
+These come from the fit behind the figures above, which uses 40,000 iterations
+with 20,000 discarded:[^chains]
+
+```r
+fit_grid$diagnosis[["tau=0.500"]]
+#>      variable  rhat ess_bulk ess_tail
+#> 1 (Intercept) 1.000     3220     6318
+#> 2         age 1.000     2828     4838
+#> 3    I(age^2) 1.000     2806     5050
+#> 4    sexGirls 1.000     3228     6249
+```
+
+## Multiple-output models
+
+Weight and height are correlated, and analysing them separately discards that
+structure. `mo.bqr.svy()` fits both.
+
+```r title="fit-mo.R"
+set.seed(50)
+fit_mo <- mo.bqr.svy(cbind(wgt, hgt) ~ age + I(age^2) + sex,
+                     weights = dweight, data = Anthro,
+                     quantile = c(0.05, 0.10, 0.15),
+                     n_dir = 20, max_iter = 2000, verbose = FALSE)
+```
+
+With two responses a quantile is not a curve. The directional approach takes a
+set of unit directions, fits a quantile to the projection of the response onto
+each one, and keeps the resulting half-plane. The quantile region is their
+intersection: convex by construction, and polygonal rather than smooth because
+the direction set is finite.
+
+Individual directions are not of interest; the region is. Each region is
+conditional on a covariate profile, so there is one region per profile.
+
+<Wide>
+  <QuantileRegions n={3} />
+</Wide>
+
+The regions translate along the growth curve as age increases, and expand, since
+dispersion in both responses grows with age. The contours are read from the
+outside in: magnitude 0.05 traces the outermost region and each larger magnitude
+a more central one.
+
+## How the figures are built
+
+Nothing is fitted in the browser. `scripts/extract-bqr.R` refits the three
+models, extracts the coefficients, credible intervals, diagnostics, direction
+vectors and the observed data, and writes them to JSON files committed with the
+site. The figures read those files.
+
+Figure 3 required one step beyond extraction. `mo.bqr.svy()` returns, per
+direction, four coefficients on the design matrix plus one on the orthogonal
+projection, reported as `gamma_1`. For direction $u_j$ with orthogonal
+complement $\Gamma_j$ the fitted equation is
+
+$$
+u_j' y \;=\; x' \beta_j + \gamma_j \, (\Gamma_j' y),
+$$
+
+so collecting the terms in $y$ gives a hyperplane with normal
+$u_j - \gamma_j \Gamma_j$ and offset $x' \beta_j$. That half-plane is the tail of
+the projection, so the region is the intersection of the complements: the points
+that are not extreme in any direction. Taking the other side yields an empty
+intersection.
+
+To reproduce:
+
+```bash
+Rscript scripts/extract-bqr.R
+```
+
+## References
+
+Nascimento ML, Gonçalves KCM (2024). "Bayesian Quantile Regression Models for
+Complex Survey Data Under Informative Sampling." *Journal of Survey Statistics
+and Methodology*, 12(4), 1105–1130.
+[doi:10.1093/jssam/smae015](https://doi.org/10.1093/jssam/smae015)
+
+Nascimento ML, Gonçalves KCM (2026). "A Bayesian Approach to Multiple-Output
+Quantile Regression Analysis under Informative Sampling." *Journal of Survey
+Statistics and Methodology*, smaf040.
+[doi:10.1093/jssam/smaf040](https://doi.org/10.1093/jssam/smaf040)
+
+[^chains]: The vignette uses shorter chains so that it builds quickly: 6,000 iterations with 3,000 discarded for the ALD method, giving effective sample sizes between 479 and 634. The fits used here run longer, so the intervals reported above are not limited by Monte Carlo error.
