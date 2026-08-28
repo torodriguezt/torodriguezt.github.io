@@ -6,6 +6,7 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "*.{js,ts,jsx,tsx,mdx}",
+    "./content/**/*.{md,mdx}",
   ],
   theme: {
     extend: {
@@ -69,6 +70,32 @@ const config: Config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      typography: {
+        // Drives `prose-tr` off the design tokens in globals.css, so the
+        // article body follows the theme without a prose-invert variant.
+        tr: {
+          css: {
+            "--tw-prose-body": "var(--fg2)",
+            "--tw-prose-headings": "var(--fg)",
+            "--tw-prose-lead": "var(--fg2)",
+            "--tw-prose-links": "var(--brand)",
+            "--tw-prose-bold": "var(--fg)",
+            "--tw-prose-counters": "var(--dim)",
+            "--tw-prose-bullets": "var(--line)",
+            "--tw-prose-hr": "var(--line)",
+            "--tw-prose-quotes": "var(--fg)",
+            "--tw-prose-quote-borders": "var(--brand)",
+            "--tw-prose-captions": "var(--dim)",
+            "--tw-prose-code": "var(--fg)",
+            // Tailwind's default assumes a dark code surface; ours follows the
+            // theme, so anything Shiki does not tokenise stays readable.
+            "--tw-prose-pre-code": "var(--fg)",
+            "--tw-prose-pre-bg": "transparent",
+            "--tw-prose-th-borders": "var(--line)",
+            "--tw-prose-td-borders": "var(--line)",
+          },
+        },
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -90,7 +117,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 }
 
 export default config
