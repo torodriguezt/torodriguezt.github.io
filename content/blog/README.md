@@ -1,117 +1,128 @@
-# Blog - Guía para Agregar Nuevos Posts
+# Blog — cómo escribir un post
 
-Este directorio contiene los posts del blog en formato MDX (Markdown + JSX).
+Cada `.mdx` de esta carpeta es un post. No hay que registrarlo en ningún lado:
+[`lib/blog.ts`](../../lib/blog.ts) lee el directorio y
+[`app/blog/[slug]/page.tsx`](../../app/blog/[slug]/page.tsx) genera la ruta en el build.
 
-## Estructura de un Post
+## Frontmatter
 
-Cada post debe tener un frontmatter YAML al inicio con la siguiente información:
-
-\`\`\`mdx
+```yaml
 ---
-title: "Título del Post"
-date: "YYYY-MM-DD"
-readTime: "X min"
-tags: ["Tag1", "Tag2", "Tag3"]
-category: "Technical" | "Projects" | "Reflections"
-description: "Descripción breve del post que aparece en el listado"
+title: "Título del post"          # obligatorio: sin él, el archivo se ignora
+date: "2026-08-26"                # YYYY-MM-DD, ordena el índice
+category: "Technical"             # etiqueta libre que sale en el listado
+tags: ["Bayesian", "R"]
+description: "Una o dos frases; aparece en el índice y en el <meta>."
+readTime: "12 min"                # opcional; si falta se estima del texto
+draft: true                       # opcional; lo saca del build
 ---
+```
 
-# Título del Post
+Un archivo cuyo nombre empieza por `_` tampoco entra al build.
 
-Tu contenido aquí...
-\`\`\`
+## Qué se puede usar
 
-## Agregar un Nuevo Post
+| Cosa | Cómo |
+|---|---|
+| Markdown | Todo GFM: tablas, footnotes `[^1]`, tachado, listas de tareas |
+| Matemáticas | `$inline$` y `$$display$$` — KaTeX corre en el build, no manda JS |
+| Código | ```` ```r title="fit.R" showLineNumbers {12-18} ```` |
+| Componentes | Cualquiera registrado en [`components/mdx/mdx-body.tsx`](../../components/mdx/mdx-body.tsx), sin `import` |
 
-1. **Crear el archivo MDX**: Crea un nuevo archivo en `content/blog/` con formato `slug-del-post.mdx`
-   
-2. **Agregar metadata**: Incluye el frontmatter completo al inicio
+## Componentes disponibles
 
-3. **Registrar el post**: Agrega la metadata en dos lugares:
-   - `app/blog/page.tsx`: Array `blogPosts`
-   - `app/blog/[slug]/page.tsx`: Objetos `blogPostsData` y `blogPostsContent`
+Genéricos, sirven en cualquier post:
 
-## Sintaxis Markdown Soportada
+```mdx
+<Callout variant="insight" title="Opcional">
+Markdown normal aquí dentro.
+</Callout>
+```
 
-### Encabezados
-\`\`\`markdown
-# H1
-## H2
-### H3
-\`\`\`
+`variant` es `note` | `warning` | `insight` | `aside`.
 
-### Énfasis
-\`\`\`markdown
-**negrita**
-*cursiva*
-\`\`\`
+```mdx
+<Figure
+  src="/blog/mi-figura.gif"
+  alt="Texto alternativo"
+  caption="Pie de figura."
+/>
+```
 
-### Listas
-\`\`\`markdown
-- Item 1
-- Item 2
+Sirve igual para PNG, SVG animado o GIF. Los archivos van en `public/blog/`.
 
-1. Primero
-2. Segundo
-\`\`\`
+```mdx
+<Wide>
+  <MiComponente />
+</Wide>
+```
 
-### Código
-\`\`\`markdown
-\`código inline\`
+`Wide` saca un bloque del ancho de lectura (68ch) para mapas y gráficas.
 
-\`\`\`python
-# Bloque de código
-def hello():
-    print("Hello World")
-\`\`\`
-\`\`\`
+## Componentes interactivos
 
-### Enlaces
-\`\`\`markdown
-[Texto del enlace](https://url.com)
-\`\`\`
+Los del post de ejemplo viven en [`components/mdx/demos/`](../../components/mdx/demos/):
+`Pm25Map` (campo continuo en canvas + isolíneas), `MaternExplorer` (sliders +
+framer-motion) y `PosteriorChart` (SVG a mano, con vista de tabla).
 
-### Imágenes
-\`\`\`markdown
-![Alt text](/ruta/imagen.jpg)
-\`\`\`
+### El sistema de figuras
 
-### Tablas
-\`\`\`markdown
-| Columna 1 | Columna 2 |
-|-----------|-----------|
-| Valor 1   | Valor 2   |
-\`\`\`
+La regla: **la tinta codifica los datos, el naranja codifica la interacción.**
+Las series se distinguen por forma (línea sólida, mancha, círculo abierto), no
+por color, igual que en una figura impresa. El acento queda reservado para lo que
+el lector está señalando: crosshair, marcador activo, control seleccionado. Así
+el acento significa algo y las figuras sobreviven a una impresión en blanco y
+negro.
 
-## Ejemplo de Post Completo
+- [`viz.ts`](../../components/mdx/demos/viz.ts) — las dos rampas secuenciales
+  (casi acromáticas, una por tema, cada una escalonada contra su propia
+  superficie) y las especificaciones de marca.
+- [`figure-frame.tsx`](../../components/mdx/demos/figure-frame.tsx) — el marco:
+  sin tarjeta ni relleno, reglas finas arriba y abajo, pie numerado, y controles
+  discretos (`Segmented`, `Slider`, `ControlLabel`).
 
-Ver archivos existentes:
-- `introduccion-machine-learning.mdx`
-- `analisis-bayesiano-espacial.mdx`
-- `transformers-nlp.mdx`
+Tipografía: **dentro de una figura todo va en la sans del sitio**, en caja normal
+y sin tracking, con `tabular-nums` solo donde los dígitos deben alinearse (marcas
+de eje, columnas de tabla, lecturas que cambian al pasar el cursor). El mono en
+mayúsculas con tracking es la voz del sitio para marcadores de sección —
+cabeceras, etiquetas de callout — y a tamaño pequeño dentro de una gráfica se lee
+mecánico. Los `<text>` de SVG sin `className` heredan la sans solos.
 
-## Próximos Pasos (Opcional)
+El número de figura se pasa desde el `.mdx` (`<Pm25Map n={1} />`), no desde el
+componente, para que el mismo componente sirva en otro post.
 
-Para una integración más avanzada con MDX verdadero:
+Dos trampas de Tailwind que ya me mordieron aquí:
 
-1. **Instalar MDX Remote** (ya incluido):
-   \`\`\`bash
-   npm install @next/mdx @mdx-js/loader @mdx-js/react
-   \`\`\`
+- Un valor arbitrario **con comas** se descarta en silencio:
+  `grid-cols-[minmax(0,1fr)_1fr]` no genera nada. Usa `grid-cols-[0.44fr_1fr]`.
+- El **modificador de opacidad no funciona** sobre colores definidos como
+  `var()`: `bg-brand/15` no produce ninguna regla. Usa `color-mix` en un `style`.
 
-2. **Usar componentes personalizados**: Puedes crear componentes React personalizados y usarlos directamente en tus posts MDX.
+Para uno nuevo:
 
-3. **Sistema de lectura automática**: Implementar un sistema que lea automáticamente los archivos `.mdx` en lugar de registrarlos manualmente.
+1. Créalo en `components/mdx/demos/` con `"use client"` arriba.
+2. Regístralo en el objeto `components` de `components/mdx/mdx-body.tsx`.
+3. Úsalo por nombre en el `.mdx`.
 
-## Categorías Disponibles
+Sólo los posts que lo usan cargan su JavaScript.
 
-- **Technical**: Tutoriales técnicos, explicaciones de conceptos
-- **Projects**: Análisis profundos de proyectos
-- **Reflections**: Reflexiones personales, experiencias
+### Colores y tema
 
-## Tips
+Usa los tokens del sitio (`var(--brand)`, `var(--fg2)`, `var(--line)`, …) dentro
+de SVG y de props de librerías: cambian solos entre claro y oscuro. Si un
+componente necesita leer el tema en JS, usa `useTheme()` de
+`contexts/theme-context` y espera a `mounted` antes de pintar colores, para que
+no parpadee.
 
-- Usa bloques de código con el lenguaje especificado para mejor sintaxis highlighting
-- Mantén los posts entre 10-20 minutos de lectura
-- Incluye ejemplos prácticos de código cuando sea posible
-- Usa imágenes para complementar explicaciones (colócalas en `public/blog/`)
+## Cuidado con MDX
+
+`{` y `}` son sintaxis JSX fuera de las matemáticas y de los bloques de código.
+Si un párrafo necesita llaves literales, escápalas (`\{`) o mete el fragmento en
+`` `código` ``. Lo mismo con `<` seguido de letra.
+
+## Ver el resultado
+
+```bash
+npm run dev     # http://localhost:3000/blog
+npm run build   # export estático, valida KaTeX y Shiki
+```
