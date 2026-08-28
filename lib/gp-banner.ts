@@ -2,29 +2,31 @@
 // observations, then drifting continuously by rotating between two independent
 // posterior draws. Ported from the design canvas (gp-banner.js).
 
-const CURVE_COLORS = [
-  "#E67348", "#FF8A65", "#C9A227", "#9E4A5F", "#D9533C", "#6B4A36",
-  "#E9A13B", "#B8384A", "#8C6A55", "#EFB183", "#A9552F", "#7C4B2A",
-]
-const ANCHORS_X = [0.05, 0.19, 0.34, 0.47, 0.61, 0.76, 0.93]
-const ANCHORS_Y = [-0.5, 0.55, -0.6, 0.25, 0.8, -0.35, 0.4]
+// Four observations, widely spaced. Seven of them, alternating sign every 0.14
+// with a length scale of 0.098, made the posterior mean itself zigzag six times
+// — that busyness read as noise in the draws when it was really the fit
+// following the data. Four anchors over a longer length scale give a mean with
+// two gentle turns and room for the band to open between them.
+const ANCHORS_X = [0.08, 0.36, 0.64, 0.92]
+const ANCHORS_Y = [0.45, -0.5, 0.55, -0.35]
+/** Long enough that the draws undulate rather than wobble. */
+const LENGTH_SCALE = 0.22
+const SIGNAL_VAR = 1.7
 
 interface Curve {
   a: Float64Array
   b: Float64Array
   phase: number
   speed: number
-  /** Fraction of the draw-in elapsed before this curve starts. */
-  delay: number
-  /** Relative drawing pace, so the strokes don't land in lockstep. */
-  pace: number
 }
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v)
 
-// Draw-in timeline, in units of "fraction of one curve".
-const MEAN_DELAY = 0.14
-const DRAW_END = 1.75
+// One draw-in timeline for every layer. Band, draws and mean all advance
+// against this same fraction and reach the right edge together — previously
+// each curve carried its own delay and pace while the mean ran on a third
+// clock, so the layers arrived at different times.
+const DRAW_END = 1
 const DRAW_STEP = 0.02
 
 // The posterior and its samples are built once per page load and reused by
@@ -36,7 +38,7 @@ const DRAW_STEP = 0.02
 // by Fast Refresh), and each copy would bring its own blank cache and replay the
 // draw-in. A page load is the only thing that clears this.
 interface BannerScene {
-  gp: { mean: Float64Array; L: Float64Array[] } | null
+  gp: { mean: Float64Array; sd: Float64Array; L: Float64Array[] } | null
   curves: Map<number, Curve[]>
   t0: number
   /** How far the draw-in got, so navigating mid-stroke picks it up there. */
@@ -122,7 +124,17 @@ function gpPosterior(grid: number[], ax: number[], ay: number[], ls: number, sig
     }
     cov.push(row)
   }
-  return { mean, L: cholesky(cov, n) }
+  // Marginal sd for the credible band. Σ = LLᵀ, so diag(Σ) is the squared row
+  // norm of L — no second pass over the covariance needed.
+  const L = cholesky(cov, n)
+  const sd = new Float64Array(n)
+  for (let i = 0; i < n; i++) {
+    let ss = 0
+    for (let k = 0; k <= i; k++) ss += L[i][k] * L[i][k]
+    sd[i] = Math.sqrt(ss)
+  }
+
+  return { mean, sd, L }
 }
 
 function gpDeviation(gp: { L: Float64Array[] }, n: number) {
@@ -143,14 +155,19 @@ function gpDeviation(gp: { L: Float64Array[] }, n: number) {
 
 export function startBanner(
   canvas: HTMLCanvasElement,
-  options: { curveCount?: number } = {},
+  options: { curveCount?: number; drift?: boolean } = {},
 ): BannerHandle {
+  // With drift off the draws settle into one fixed posterior sample and the
+  // render loop shuts down after the draw-in, so the page stops repainting.
+  const drift = options.drift ?? false
   const n = 220
   const count = Math.max(2, Math.min(24, options.curveCount || 10))
   const grid: number[] = []
   for (let i = 0; i < n; i++) grid.push(i / (n - 1))
 
-  const gp = scene.gp ?? (scene.gp = gpPosterior(grid, ANCHORS_X, ANCHORS_Y, 0.098, 1.7))
+  const gp =
+    scene.gp ??
+    (scene.gp = gpPosterior(grid, ANCHORS_X, ANCHORS_Y, LENGTH_SCALE, SIGNAL_VAR))
 
   let cached = scene.curves.get(count)
   if (!cached) {
@@ -161,10 +178,6 @@ export function startBanner(
         b: gpDeviation(gp, n),
         phase: Math.random() * Math.PI * 2,
         speed: 0.055 + Math.random() * 0.03,
-        // Everything starts within the first third, so the strokes advance
-        // together rather than queueing up one curve at a time.
-        delay: (s / count) * 0.3 + Math.random() * 0.09,
-        pace: 0.85 + Math.random() * 0.4,
       })
     }
     scene.curves.set(count, cached)
@@ -194,11 +207,27 @@ export function startBanner(
 
   // Read once per theme change instead of once per frame: getComputedStyle
   // forces a style recalculation, which is what made the banner stutter.
-  let meanColor = "#1F6F78"
+  // Fallbacks mirror the light palette, which is the default theme.
+  let meanColor = "#1B7A4B"
+  let drawColor = "#E67348"
+  let pageColor = "#FFFDFC"
+  // Per-theme, because the same alpha does not buy the same presence on a
+  // near-white and a near-black page. Tuned in globals.css beside the palette.
+  let bandAlpha = 0.18
+  let drawAlpha = 0.3
   function refreshMeanColor() {
-    meanColor = (
-      getComputedStyle(document.documentElement).getPropertyValue("--curve-mean") || "#1F6F78"
-    ).trim()
+    const style = getComputedStyle(document.documentElement)
+    const read = (name: string, fallback: string) =>
+      (style.getPropertyValue(name) || fallback).trim()
+    const readNumber = (name: string, fallback: number) => {
+      const value = Number.parseFloat(style.getPropertyValue(name))
+      return Number.isFinite(value) ? value : fallback
+    }
+    meanColor = read("--curve-mean", "#1B7A4B")
+    drawColor = read("--brand", "#E67348")
+    pageColor = read("--bg", "#FFFDFC")
+    bandAlpha = readNumber("--banner-band", 0.18)
+    drawAlpha = readNumber("--banner-draw", 0.3)
   }
 
   function draw() {
@@ -211,22 +240,55 @@ export function startBanner(
     ctx.clearRect(0, 0, w, h)
     ctx.lineJoin = "round"
     ctx.lineCap = "round"
-    ctx.lineWidth = 1.35
-    const p = state.progress
+    // Draws are hairlines so the mean, at more than twice the weight, is
+    // unmistakably the fit and they are unmistakably the samples around it.
+    ctx.lineWidth = 1.2
+    // One fraction drives every layer, so the band, the draws and the mean
+    // sweep across together.
+    const frac = clamp01(state.progress)
+    const upto = Math.floor(frac * n)
+
+    // The 95% band, drawn first so everything else sits on top of it. This is
+    // the element that makes the picture read as a fit: it pinches at the
+    // observations and opens between them.
+    const bandUpto = upto
+    if (bandUpto > 1) {
+      // The wrapper already sits at 0.45 opacity, so this is halved again
+      // on screen.
+      ctx.globalAlpha = bandAlpha
+      ctx.fillStyle = drawColor
+      ctx.beginPath()
+      for (let i = 0; i < bandUpto; i++) {
+        const x = grid[i] * w
+        const y = cy - (gp.mean[i] + 1.96 * gp.sd[i]) * amp
+        if (i === 0) ctx.moveTo(x, y)
+        else ctx.lineTo(x, y)
+      }
+      for (let i = bandUpto - 1; i >= 0; i--) {
+        ctx.lineTo(grid[i] * w, cy - (gp.mean[i] - 1.96 * gp.sd[i]) * amp)
+      }
+      ctx.closePath()
+      ctx.fill()
+    }
+
+    ctx.strokeStyle = drawColor
     for (let s = 0; s < curves.length; s++) {
       const c = curves[s]
-      const upto = Math.floor(clamp01((p - c.delay) * c.pace) * n)
       if (upto < 2) continue
-      const th = c.phase + t * c.speed
+      // Static: the draw holds the phase it was born with. Drifting: the phase
+      // rotates between two independent posterior draws, which keeps every
+      // intermediate frame a valid draw rather than an average of two.
+      const th = drift ? c.phase + t * c.speed : c.phase
       const ca = Math.cos(th)
       const sa = Math.sin(th)
-      ctx.strokeStyle = CURVE_COLORS[s % CURVE_COLORS.length]
-      ctx.globalAlpha = 0.82
+      // Every draw shares one hue: they are exchangeable samples, so colouring
+      // them apart would encode an identity that does not exist. At low alpha
+      // the strokes pile up where the draws agree and thin out where they do
+      // not, which turns the bundle into a density.
+      ctx.globalAlpha = drawAlpha
       ctx.beginPath()
       for (let i = 0; i < upto; i++) {
-        let v = gp.mean[i] + ca * c.a[i] + sa * c.b[i]
-        if (v > 2.4) v = 2.4
-        else if (v < -2.4) v = -2.4
+        const v = gp.mean[i] + ca * c.a[i] + sa * c.b[i]
         const x = grid[i] * w
         const y = cy - v * amp
         if (i === 0) ctx.moveTo(x, y)
@@ -234,28 +296,36 @@ export function startBanner(
       }
       ctx.stroke()
     }
-    const meanFrac = clamp01((p - MEAN_DELAY) * 1.15)
-    const meanUpto = Math.floor(meanFrac * n)
-    if (meanUpto > 1) {
+    if (upto > 1) {
       ctx.globalAlpha = 1
-      ctx.lineWidth = 2.3
+      ctx.lineWidth = 2.8
       ctx.strokeStyle = meanColor
       ctx.beginPath()
-      for (let i = 0; i < meanUpto; i++) {
+      for (let i = 0; i < upto; i++) {
         const x = grid[i] * w
         const y = cy - gp.mean[i] * amp
         if (i === 0) ctx.moveTo(x, y)
         else ctx.lineTo(x, y)
       }
       ctx.stroke()
-      ctx.lineWidth = 1.35
+      ctx.lineWidth = 1.2
     }
+    // The observations last, each with a ring in the page colour so it stays
+    // legible where the bundle of draws crosses it. These are the points the
+    // whole picture is conditioned on, so they should be the clearest thing in
+    // it — before, they were the same flat dot the draws ran straight over.
     ctx.globalAlpha = 1
-    ctx.fillStyle = meanColor
     for (let a = 0; a < ANCHORS_X.length; a++) {
-      if (meanFrac < ANCHORS_X[a]) continue
+      if (frac < ANCHORS_X[a]) continue
+      const x = ANCHORS_X[a] * w
+      const y = cy - ANCHORS_Y[a] * amp
       ctx.beginPath()
-      ctx.arc(ANCHORS_X[a] * w, cy - ANCHORS_Y[a] * amp, 4.5, 0, Math.PI * 2)
+      ctx.arc(x, y, 6, 0, Math.PI * 2)
+      ctx.fillStyle = pageColor
+      ctx.fill()
+      ctx.beginPath()
+      ctx.arc(x, y, 4.2, 0, Math.PI * 2)
+      ctx.fillStyle = meanColor
       ctx.fill()
     }
   }
@@ -275,20 +345,28 @@ export function startBanner(
   let inView = true
   let lastFrame = 0
   let pausedAt = 0
+  /** Set once a static banner has finished drawing in: nothing left to animate. */
+  let settled = false
 
   function loop(ts: number) {
-    state.raf = requestAnimationFrame(loop)
-    if (ts - lastFrame < FRAME_MS) return
-    lastFrame = ts
-    if (state.progress < DRAW_END) {
-      state.progress += DRAW_STEP
-      scene.progress = state.progress
+    if (ts - lastFrame >= FRAME_MS) {
+      lastFrame = ts
+      if (state.progress < DRAW_END) {
+        state.progress += DRAW_STEP
+        scene.progress = state.progress
+      }
+      draw()
+      if (!drift && state.progress >= DRAW_END) {
+        settled = true
+        running = false
+        return
+      }
     }
-    draw()
+    state.raf = requestAnimationFrame(loop)
   }
 
   function play() {
-    if (running || reduced) return
+    if (running || reduced || settled) return
     running = true
     // Skip the paused interval so the curves don't jump on resume.
     if (pausedAt) {
