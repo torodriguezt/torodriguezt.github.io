@@ -12,13 +12,15 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: "dark",
+  theme: "light",
   mounted: false,
   toggleTheme: () => {},
 })
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark")
+  // Must match the attribute app/layout.tsx renders and the fallback in its
+  // blocking script: all three are the same default in three places.
+  const [theme, setTheme] = useState<Theme>("light")
   const [mounted, setMounted] = useState(false)
 
   // The blocking script in app/layout.tsx has already written data-theme, so we
