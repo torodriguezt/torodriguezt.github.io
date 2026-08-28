@@ -1,22 +1,63 @@
-import GpBanner from "@/components/gp-banner"
+import Link from "next/link"
+import PageHeader from "@/components/page-header"
+import { getAllPosts } from "@/lib/blog"
+
+export const metadata = {
+  title: "Blog | Tomás Rodríguez Taborda",
+  description: "Notes on Bayesian computation, spatial statistics and the software around them.",
+}
+
+function formatDate(date: string): string {
+  return new Date(`${date}T00:00:00`).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  })
+}
 
 export default function BlogPage() {
+  const posts = getAllPosts()
+
   return (
-    <section className="relative overflow-hidden">
-      <GpBanner curveCount={12} />
+    <>
+      <PageHeader
+        title="Blog"
+        subtitle="Notes on Bayesian computation, spatial statistics and the software around them."
+      />
 
-      <div className="rise relative flex min-h-[70vh] flex-col items-center justify-center gap-[22px] px-6 py-20 sm:px-8">
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-brand">
-          Under construction
-        </p>
+      <section className="rise-2 mx-auto max-w-[900px] px-6 pb-24 pt-[52px] sm:px-8">
+        {posts.length === 0 ? (
+          <p className="text-[15.5px] leading-[1.7] text-ink2">Nothing published yet.</p>
+        ) : (
+          <ol className="m-0 list-none p-0">
+            {posts.map((post) => (
+              <li key={post.slug} className="border-b border-rule">
+                <Link href={`/blog/${post.slug}`} className="group block py-[26px]">
+                  <div className="mb-3 flex flex-wrap items-center gap-3 font-mono text-[11px] uppercase tracking-[0.1em] text-dim">
+                    <span className="rounded-full border border-rule px-2.5 py-[3px] text-[10.5px] transition-colors group-hover:border-brand group-hover:text-brand">
+                      {post.category}
+                    </span>
+                    <span>{formatDate(post.date)}</span>
+                    <span>{post.readTime}</span>
+                  </div>
 
-        <h1 className="text-center text-[34px] font-semibold tracking-[-0.03em] text-ink">Blog</h1>
+                  <h2 className="max-w-[62ch] text-pretty text-[19px] font-semibold leading-[1.35] tracking-[-0.015em] text-ink transition-colors group-hover:text-brand">
+                    {post.title}
+                  </h2>
 
-        <p className="max-w-[44ch] text-pretty text-center text-[15.5px] leading-[1.7] text-ink2">
-          I&rsquo;m still putting the material together. Deployment write-ups and project notes will
-          land here.
-        </p>
-      </div>
-    </section>
+                  <p className="mt-2.5 max-w-[68ch] text-pretty text-[14.5px] leading-[1.7] text-ink2">
+                    {post.description}
+                  </p>
+
+                  <p className="mt-3.5 font-mono text-[11.5px] leading-[1.6] text-dim">
+                    {post.tags.join(" · ")}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        )}
+      </section>
+    </>
   )
 }
