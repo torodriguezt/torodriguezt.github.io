@@ -1,7 +1,8 @@
 import PageHeader from "@/components/page-header"
 
 interface Award {
-  year: string
+  date: string
+  dateTime: string
   title: string
   context: string
 }
@@ -9,15 +10,17 @@ interface Award {
 // Most recent first.
 const AWARDS: Award[] = [
   {
-    year: "2025",
-    title: "First Place — Hackathon UdeA × Source Meridian",
+    date: "11 Aug 2025",
+    dateTime: "2025-08-11",
+    title: "1st Place — Biomedical Literature Classification Hackathon",
     context:
-      "Universidad de Antioquia — Built a BERT-based multi-label and multi-class classifier for medical articles",
+      "Developed a BERT-based multilabel classifier for medical articles, achieving an F1 score of 0.93 and Hamming loss of 0.03.",
   },
   {
-    year: "2024",
-    title: "Best Poster Award — ISBA 2024",
-    context: "International Society for Bayesian Analysis World Meeting",
+    date: "15 Jul 2024",
+    dateTime: "2024-07-15",
+    title: "Best Poster Award — 2024 ISBA World Meeting",
+    context: "Bayesian Analysis of Geochemical Risk in the Province of Huelva, Spain.",
   },
 ]
 
@@ -30,9 +33,9 @@ export default function AwardsPage() {
         {AWARDS.map((award) => (
           <div
             key={award.title}
-            className="grid gap-2 border-b border-rule py-6 sm:grid-cols-[88px_1fr] sm:gap-6"
+            className="grid gap-2 border-b border-rule py-6 sm:grid-cols-[112px_1fr] sm:gap-6"
           >
-            <span className="font-mono text-[13px] text-ink sm:pt-1">{award.year}</span>
+            <time dateTime={award.dateTime} className="font-mono text-[13px] text-ink sm:pt-1">{award.date}</time>
             <div>
               <h2 className="max-w-[60ch] text-[16.5px] font-semibold leading-[1.4] tracking-[-0.01em] text-ink">
                 {award.title}
