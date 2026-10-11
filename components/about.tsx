@@ -1,18 +1,21 @@
 const PARA_1 =
-  "I hold a degree in Systems and Computer Science Engineering and am finishing my degree in Statistics at the National University of Colombia. Most of my work focuses on computational statistics, in particular approximate Bayesian inference for models where exact computation isn't feasible. The applications I have worked on are mostly spatio-temporal modelling and quantile regression, and more recently machine learning and uncertainty quantification. I've also started to take an interest in Bayesian deep learning and high-performance computing."
+  "I study Statistics at the National University of Colombia, with graduation expected in December 2026. I have completed the academic requirements for Systems and Computer Science Engineering at the same university, with degree conferral pending."
 
 const PARA_2 =
-  "I've worked as a software engineer on clinical software for cancer sample analysis and its integration with AI-based systems, and on neural networks applied to satellite imagery to predict construction sites."
+  "As a research assistant in the Department of Statistics, I work with Prof. Johnatan Cardona Jiménez on approximate Bayesian inference, spatial and spatio-temporal modelling, hierarchical and survey quantile regression, and uncertainty quantification in machine learning. I develop open-source R and Python software and am also interested in Bayesian deep learning and high-performance computing."
+
+const PARA_3 =
+  "I've also worked as a software engineer at Impossible Code, developing backend services and frontend components for clinical software supporting cancer patient data processing, and computer vision models for construction site analysis using satellite imagery."
 
 const AREAS = [
-  { label: "Bayesian computation", items: "MCMC, INLA, EM algorithm, approximate inference" },
+  { label: "Bayesian computation", items: "MCMC, INLA, EM, approximate inference, Full Bayesian Significance Test (FBST)" },
   {
     label: "Statistical modelling",
-    items: "Spatio-temporal models, quantile regression, machine learning, uncertainty quantification",
+    items: "Spatial and spatio-temporal models, hierarchical and survey quantile regression, machine learning, uncertainty quantification",
   },
   {
     label: "Computing",
-    items: "Algorithms and data structures, parallel computing, databases, systems",
+    items: "R, Python, C++, SQL, LaTeX; Git, Docker, Linux; algorithms, databases, parallel computing and multithreading",
   },
 ]
 
@@ -31,6 +34,9 @@ export default function About() {
             <p className="mt-5 max-w-[62ch] text-pretty text-[16px] leading-[1.68] text-ink2 sm:text-[16.5px]">
               {PARA_2}
             </p>
+            <p className="mt-5 max-w-[62ch] text-pretty text-[16px] leading-[1.68] text-ink2 sm:text-[16.5px]">
+              {PARA_3}
+            </p>
           </div>
         </div>
       </section>
@@ -46,6 +52,12 @@ export default function About() {
             </div>
           ))}
         </div>
+        <p className="mt-6 text-sm leading-[1.6] text-ink2">
+          <span className="mr-3 font-mono text-[11px] uppercase tracking-[0.12em] text-ink">
+            Languages
+          </span>
+          Spanish (native) · English (C1)
+        </p>
       </section>
     </>
   )

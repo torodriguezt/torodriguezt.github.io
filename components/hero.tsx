@@ -22,6 +22,11 @@ export default function Hero() {
               {INTRO}
             </p>
 
+            <p className="mt-5 max-w-[46ch] text-pretty text-[14px] leading-[1.65] text-ink2">
+              Incoming Visiting Research Student at KAUST, hosted by Prof. Håvard Rue
+              in the BAYESCOMP group (November 2026 – April 2027).
+            </p>
+
             <div className="mt-[30px] flex flex-wrap items-center gap-x-6 gap-y-3">
               <Link
                 href="/research"
