@@ -2,10 +2,10 @@ const PARA_1 =
   "I study Statistics at the National University of Colombia, with graduation expected in December 2026. I have completed the academic requirements for Systems and Computer Science Engineering at the same university, with degree conferral pending."
 
 const PARA_2 =
-  "As a research assistant in the Department of Statistics, I work with Prof. Johnatan Cardona Jiménez on approximate Bayesian inference, spatial and spatio-temporal modelling, hierarchical and survey quantile regression, and uncertainty quantification in machine learning. I develop open-source R and Python software and am also interested in Bayesian deep learning and high-performance computing."
+  "As a research assistant in the Department of Statistics, I work on approximate Bayesian inference, spatial and spatio-temporal modelling, hierarchical and survey quantile regression, and uncertainty quantification in machine learning. I develop open-source R and Python software and am also interested in Bayesian deep learning and high-performance computing."
 
 const PARA_3 =
-  "I've also worked as a software engineer at Impossible Code, developing backend services and frontend components for clinical software supporting cancer patient data processing, and computer vision models for construction site analysis using satellite imagery."
+  "I've also worked as a software engineer, developing backend services and frontend components for clinical software supporting cancer patient data processing, and computer vision models for construction site analysis using satellite imagery."
 
 const AREAS = [
   { label: "Bayesian computation", items: "MCMC, INLA, EM, approximate inference, Full Bayesian Significance Test (FBST)" },
