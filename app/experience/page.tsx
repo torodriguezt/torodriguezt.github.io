@@ -1,5 +1,5 @@
 import PageHeader from "@/components/page-header"
-import { EDUCATION, JOBS, ORGS, UI, type OrgKey } from "@/lib/data/experience"
+import { EDUCATION, JOBS, ORGS, ORG_LOCATIONS, UI, type OrgKey } from "@/lib/data/experience"
 
 const ORG_ORDER: OrgKey[] = ["kaust", "unal", "ic"]
 
@@ -29,9 +29,10 @@ export default function ExperiencePage() {
                   key={`${role.org}-${role.period}-${role.title}`}
                   className="grid gap-2 sm:grid-cols-[150px_1fr] sm:gap-5"
                 >
-                  <span className="font-mono text-[11.5px] leading-[1.6] text-dim sm:pt-1">
-                    {role.period}
-                  </span>
+                  <div className="min-w-0 text-dim sm:pt-1">
+                    <p className="font-mono text-[11.5px] leading-[1.6]">{role.period}</p>
+                    <p className="mt-1 text-xs leading-[1.6]">{ORG_LOCATIONS[role.org]}</p>
+                  </div>
                   <div>
                     <h3 className="mb-2.5 text-[15.5px] font-semibold tracking-[-0.01em] text-ink">
                       {role.title}
@@ -54,7 +55,10 @@ export default function ExperiencePage() {
           </h2>
           {EDUCATION.map((edu) => (
             <div key={edu.degree} className="grid gap-2 pb-[18px] sm:grid-cols-[150px_1fr] sm:gap-5">
-              <span className="font-mono text-[11.5px] text-dim sm:pt-1">{edu.period}</span>
+              <div className="min-w-0 text-dim sm:pt-1">
+                <p className="font-mono text-[11.5px] leading-[1.6]">{edu.period}</p>
+                <p className="mt-1 text-xs leading-[1.6]">{ORG_LOCATIONS[edu.org]}</p>
+              </div>
               <div>
                 <h3 className="text-[15.5px] font-semibold tracking-[-0.01em] text-ink">
                   {edu.degree}
