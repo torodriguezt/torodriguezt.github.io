@@ -1,7 +1,7 @@
 import PageHeader from "@/components/page-header"
 import { EDUCATION, JOBS, ORGS, UI, type OrgKey } from "@/lib/data/experience"
 
-const ORG_ORDER: OrgKey[] = ["ic", "unal"]
+const ORG_ORDER: OrgKey[] = ["kaust", "unal", "ic"]
 
 export default function ExperiencePage() {
   const groups = ORG_ORDER.map((key) => ({
@@ -18,7 +18,7 @@ export default function ExperiencePage() {
       <section className="rise-2 mx-auto max-w-[900px] px-6 pt-11 sm:px-8">
         {groups.map((group) => (
           <div key={group.key} className="mb-11">
-            <div className="flex items-baseline justify-between gap-5 border-b border-rule pb-3">
+            <div className="flex flex-col gap-2 border-b border-rule pb-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-5">
               <h2 className="text-[19px] font-semibold tracking-[-0.015em] text-ink">{group.org}</h2>
               <span className="whitespace-nowrap font-mono text-xs text-dim">{group.range}</span>
             </div>
@@ -60,9 +60,11 @@ export default function ExperiencePage() {
                   {edu.degree}
                 </h3>
                 <p className="mt-1 text-sm text-ink2">{ORGS[edu.org]}</p>
+                {edu.details && <p className="mt-1 text-sm text-ink2">{edu.details}</p>}
               </div>
             </div>
           ))}
+          <p className="text-sm text-ink2 sm:pl-[170px]">{UI.educationGpa}</p>
         </div>
       </section>
     </>
