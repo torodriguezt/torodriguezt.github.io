@@ -37,7 +37,7 @@ export const ORG_LOCATIONS: Record<OrgKey, string> = {
 export const JOBS: Job[] = [
   {
     org: "kaust", kind: "research", period: "Nov 2026 – Apr 2027",
-    title: "Incoming Visiting Research Student (VSRP)",
+    title: "Visiting Research Student (VSRP)",
     summary: "BAYESCOMP — Bayesian Computational Statistics and Modeling Research Group. Faculty host: Prof. Håvard Rue."
   },
   {
