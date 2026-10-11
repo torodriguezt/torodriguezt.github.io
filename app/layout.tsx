@@ -21,7 +21,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Tomás Rodríguez Taborda | Computational Statistics",
   description:
-    "Tomás Rodríguez Taborda — computational statistics and Bayesian computation: approximate inference, spatio-temporal models, quantile regression, and the software around them.",
+    "Tomás Rodríguez Taborda — computational statistics and approximate Bayesian inference, spatio-temporal modelling, quantile regression, uncertainty quantification, and open-source software.",
 }
 
 // Runs before first paint so the stored theme never flashes.
