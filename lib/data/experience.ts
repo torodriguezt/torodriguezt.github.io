@@ -28,11 +28,17 @@ export const ORGS: Record<OrgKey, string> = {
   ic: "Impossible Code"
 };
 
+export const ORG_LOCATIONS: Record<OrgKey, string> = {
+  kaust: "Thuwal, Saudi Arabia",
+  unal: "Medellín, Colombia",
+  ic: "Medellín, Colombia"
+};
+
 export const JOBS: Job[] = [
   {
     org: "kaust", kind: "research", period: "Nov 2026 – Apr 2027",
     title: "Incoming Visiting Research Student (VSRP)",
-    summary: "Joining BAYESCOMP — Bayesian Computational Statistics and Modeling Research Group — in Thuwal, Saudi Arabia, with faculty host Prof. Håvard Rue."
+    summary: "BAYESCOMP — Bayesian Computational Statistics and Modeling Research Group. Faculty host: Prof. Håvard Rue."
   },
   {
     org: "unal", kind: "research", period: "Sep 2023 – Present",

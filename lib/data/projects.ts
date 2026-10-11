@@ -43,7 +43,10 @@ export const GROUPS: ProjectGroup[] = [
         description: "R package for Bayesian quantile regression under informative sampling, using survey-weighted pseudo-likelihoods. Supports single- and multiple-output models, with MCMC and EM algorithms implemented in C++ through Rcpp.",
         collaborators: "With Johnatan Cardona Jiménez PhD, Marcus Lavagnole Nascimento PhD, Kelly Christina Mota Gonçalves PhD",
         tags: ["R", "C++", "Rcpp", "Bayesian", "Quantile Regression", "Survey Statistics", "MCMC", "EM"],
-        links: [{ label: "CRAN", url: "https://cran.r-project.org/web/packages/bayesQRsurvey/index.html" }]
+        links: [
+          { label: "CRAN", url: "https://cran.r-project.org/web/packages/bayesQRsurvey/index.html" },
+          { label: "GitHub", url: "https://github.com/torodriguezt/bayesQRsurvey" }
+        ]
       },
       {
         title: "Statistics II — Course Materials",
@@ -59,7 +62,7 @@ export const GROUPS: ProjectGroup[] = [
     items: [
       {
         title: "Multi-label Medical Article Classification",
-        description: "BERT-based multi-label and multi-class classifier for medical articles using title and abstract. Achieved an F1 score of 0.93 and Hamming loss of 0.03, earning first place in the Biomedical Literature Classification Hackathon in August 2025.",
+        description: "BERT-based multi-label and multi-class classifier for medical articles using title and abstract. Achieved an F1 score of 0.93 and Hamming loss of 0.03, earning first place in the Biomedical Literature Classification Hackathon.",
         tags: ["Python", "BERT", "NLP", "Multi-label", "Multi-class", "Deep Learning"],
         links: [{ label: "GitHub", url: "https://github.com/torodriguezt/Clasificacion_Biomedica" }]
       },
