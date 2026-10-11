@@ -13,18 +13,20 @@ export default function ResearchPage() {
 
         <ol className="m-0 list-none p-0">
           {PAPERS.map((paper) => {
-            // Submitted work carries the journal in accent.
-            const submitted = paper.status.toLowerCase().startsWith("submitted")
+            const editorialStage = paper.status === "Under revision" || paper.status === "Submitted"
             return (
               <li key={paper.title} className="border-b border-rule py-[26px]">
                 <div className="mb-3 flex flex-wrap items-center gap-3">
                   <span
                     className={`rounded-full border px-2.5 py-[3px] font-mono text-[10.5px] font-medium uppercase tracking-[0.08em] ${
-                      submitted ? "border-brand text-brand" : "border-rule text-dim"
+                      editorialStage ? "border-brand text-brand" : "border-rule text-dim"
                     }`}
                   >
                     {paper.status}
                   </span>
+                  {paper.journal && (
+                    <span className="font-mono text-[11.5px] text-dim">{paper.journal}</span>
+                  )}
                   {paper.link && (
                     <a
                       href={paper.link}
