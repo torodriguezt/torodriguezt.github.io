@@ -4,16 +4,16 @@ import { CONFERENCES, GRANTS, PAPERS } from "@/lib/data/research"
 export default function ResearchPage() {
   return (
     <>
-      <PageHeader title="Research" subtitle="Academic papers and conference presentations." />
+      <PageHeader title="Research" subtitle="Preprints, manuscripts, research grants, and conference presentations." />
 
       <section className="rise-2 mx-auto max-w-[900px] px-6 pt-[52px] sm:px-8">
         <div className="flex items-baseline gap-3.5 border-b border-rule pb-2">
-          <h2 className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink">Papers</h2>
+          <h2 className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink">Preprints and manuscripts</h2>
         </div>
 
         <ol className="m-0 list-none p-0">
           {PAPERS.map((paper) => {
-            // Submitted work carries the journal in accent; in-preparation stays quiet.
+            // Submitted work carries the journal in accent.
             const submitted = paper.status.toLowerCase().startsWith("submitted")
             return (
               <li key={paper.title} className="border-b border-rule py-[26px]">
@@ -32,7 +32,7 @@ export default function ResearchPage() {
                       rel="noopener noreferrer"
                       className="border-b border-rule pb-px font-mono text-[11.5px] text-ink2 transition-colors hover:border-brand hover:text-brand"
                     >
-                      arXiv ↗
+                      {paper.linkLabel ?? "Preprint"} ↗
                     </a>
                   )}
                 </div>
@@ -99,7 +99,9 @@ export default function ResearchPage() {
                     <h3 className="text-[15.5px] font-semibold tracking-[-0.01em] text-ink">
                       {conf.name}
                     </h3>
-                    <span className="font-mono text-[11.5px] text-dim">{conf.location}</span>
+                    <span className="font-mono text-[11.5px] text-dim">
+                      {conf.location}{conf.date && ` · ${conf.date}`}
+                    </span>
                   </div>
                   <div className="mt-3 flex flex-col gap-2.5">
                     {conf.presentations.map((pres) => (
