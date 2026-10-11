@@ -30,16 +30,19 @@ export const GROUPS: ProjectGroup[] = [
     items: [
       {
         title: "uxplain",
-        description: "Python library that combines conformal prediction with explainability methods (XAI).",
+        description: "Python library combining conformal prediction and explainability methods to explain how input features relate to predictive uncertainty in regression and classification.",
         collaborators: "With Verónica Seguro Varela MSc, Rafael Izbicki PhD, Johnatan Cardona Jiménez PhD",
-        tags: ["Python", "Conformal Prediction", "XAI", "Explainability", "Machine Learning"],
-        links: [{ label: "GitHub", url: "https://github.com/torodriguezt/uxplain" }]
+        tags: ["Python", "Conformal Prediction", "XAI", "Uncertainty Quantification", "Machine Learning"],
+        links: [
+          { label: "PyPI", url: "https://pypi.org/project/uxplain/" },
+          { label: "GitHub", url: "https://github.com/torodriguezt/uxplain" }
+        ]
       },
       {
         title: "bayesQRsurvey",
-        description: "R package for Bayesian quantile regression under informative sampling designs. Implements MCMC and EM algorithms with a C++ backend for efficient computation on complex survey data.",
-        collaborators: "With Johnatan Cardona Jiménez PhD, Kelly Christina Mota Gonçalves PhD, Marcus Lavagnole Nascimiento PhD",
-        tags: ["R", "C++", "Bayesian", "Quantile Regression", "Survey Statistics", "MCMC"],
+        description: "R package for Bayesian quantile regression under informative sampling, using survey-weighted pseudo-likelihoods. Supports single- and multiple-output models, with MCMC and EM algorithms implemented in C++ through Rcpp.",
+        collaborators: "With Johnatan Cardona Jiménez PhD, Marcus Lavagnole Nascimento PhD, Kelly Christina Mota Gonçalves PhD",
+        tags: ["R", "C++", "Rcpp", "Bayesian", "Quantile Regression", "Survey Statistics", "MCMC", "EM"],
         links: [{ label: "CRAN", url: "https://cran.r-project.org/web/packages/bayesQRsurvey/index.html" }]
       },
       {
@@ -56,7 +59,7 @@ export const GROUPS: ProjectGroup[] = [
     items: [
       {
         title: "Multi-label Medical Article Classification",
-        description: "BERT-based multi-label and multi-class classifier for medical articles using title and abstract. Articles can belong to one, two, three, or all four categories simultaneously, handling the combinatorial nature of medical literature.",
+        description: "BERT-based multi-label and multi-class classifier for medical articles using title and abstract. Achieved an F1 score of 0.93 and Hamming loss of 0.03, earning first place in the Biomedical Literature Classification Hackathon in August 2025.",
         tags: ["Python", "BERT", "NLP", "Multi-label", "Multi-class", "Deep Learning"],
         links: [{ label: "GitHub", url: "https://github.com/torodriguezt/Clasificacion_Biomedica" }]
       },

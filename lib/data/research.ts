@@ -4,6 +4,7 @@ export interface Paper {
   collaborators: string
   status: string
   link?: string
+  linkLabel?: string
   tags: string[]
 }
 
@@ -15,6 +16,7 @@ export interface Presentation {
 export interface Conference {
   name: string
   location: string
+  date?: string
   presentations: Presentation[]
 }
 
@@ -25,33 +27,43 @@ export interface ConferenceYear {
 
 export const PAPERS: Paper[] = [
   {
-    title: "Multinomial Model for Gender-Based Violence in Colombia: A Bayesian Approach to a Wicked Policy Problem",
-    description: "Multinomial Bayesian model for analyzing gender-based violence patterns across Colombian municipalities, addressing the complexity and multidimensionality of violence as a wicked policy problem.",
-    collaborators: "With Johnatan Cardona Jiménez PhD, Alejandra Estefanía Patiño Hoyos PhD, Simón Ruiz Martínez PhD",
-    status: "Submitted to Social Sciences & Humanities Open",
-    tags: ["Bayesian Statistics", "Multinomial", "Spatio-temporal", "Public Health", "Social Science"]
-  },
-  {
     title: "Scalable Bayesian Quantile Regression via EM and INLA: The EM-INLA Algorithm",
-    description: "Scalable algorithm for Bayesian quantile regression combining EM with integrated nested Laplace approximations (INLA), reducing computational cost while preserving inferential accuracy.",
-    collaborators: "With Johnatan Cardona Jiménez PhD",
-    status: "Submitted to Computational Statistics & Data Analysis",
+    description: "EM-INLA combines expectation–maximization with INLA for empirical-Bayes hierarchical quantile regression, approximating posterior marginals conditional on estimated hyperparameters without MCMC sampling. Simulations show accuracy comparable to Hamiltonian Monte Carlo with speedups of 15 to over 50 times. An application uses over 400,000 records from Colombia’s 2023 Saber 11 examination.",
+    collaborators: "Authors: Rodríguez T, Cardona J",
+    status: "Preprint · 2026",
     link: "https://arxiv.org/abs/2607.10432",
+    linkLabel: "arXiv",
     tags: ["Bayesian Statistics", "Quantile Regression", "EM", "INLA", "Scalable Inference"]
   },
   {
     title: "bayesQRsurvey: Bayesian Quantile Regression Approach for Complex Survey Data in R",
-    description: "Software paper presenting bayesQRsurvey, an R package implementing Bayesian quantile regression under informative sampling designs using MCMC and EM algorithms with a C++ backend.",
-    collaborators: "With Johnatan Cardona Jiménez PhD, Kelly Christina Mota Gonçalves PhD, Marcus Lavagnole Nascimiento PhD",
-    status: "Submitted to Journal of Statistical Software",
+    description: "The bayesQRsurvey R package implements Bayesian quantile regression for complex surveys under informative sampling using survey-weighted pseudo-likelihoods. It supports single- and multiple-output models with MCMC and expectation–maximization routines implemented in C++ through Rcpp. The article illustrates posterior summaries, convergence assessment, and predictive analyses with real survey data.",
+    collaborators: "Authors: Rodríguez T, Cardona J, Nascimento ML, Gonçalves KCM",
+    status: "Being revised for resubmission to Journal of Statistical Software following editorial feedback",
     tags: ["R", "C++", "Bayesian", "Quantile Regression", "Survey Statistics"]
   },
   {
-    title: "Dynamic spatial coupling of violence against women in Medellín during the COVID-19 lockdown",
-    description: "Spatio-temporal Bayesian model assessing how patterns of violence against women became spatially coupled across the neighbourhoods of Medellín during the COVID-19 lockdown.",
-    collaborators: "With Johnatan Cardona Jiménez PhD, Alejandra Estefanía Patiño Hoyos PhD, Simón Ruiz Martínez PhD",
-    status: "In preparation",
+    title: "The changing contribution of a shared neighbourhood pattern to reported sexual and non-sexual violence against women and girls in Medellín, Colombia, 2018–2022",
+    description: "A Bayesian shared-component model analyzes 46,390 notifications of suspected violence against women and girls across 285 Medellín neighbourhoods. During COVID-19 restrictions, a common spatial pattern contributed more strongly to sexual and non-sexual violence notifications, widening neighbourhood gradients. In 2022, only the non-sexual loading remained clearly above its pre-pandemic level; sensitivity analyses retained the direction of these changes.",
+    collaborators: "Authors: Rodríguez T, Patiño A, Ruiz S, Cardona J",
+    status: "Manuscript · arXiv submission planned",
     tags: ["Bayesian Statistics", "Spatio-temporal", "COVID-19", "Public Health", "Urban Analytics"]
+  },
+  {
+    title: "Violence Against Women in Colombia: A Bayesian Analysis Approach to a Wicked Policy Problem",
+    description: "A Bayesian multinomial logistic model examines multiple typologies of violence against women using Colombian administrative records of non-lethal injuries from 2015–2024. Bayesian ANOVA assesses the relative contributions of explanatory dimensions, accounting for uncertainty and supporting context-sensitive public decision-making within Colombia’s normative framework.",
+    collaborators: "Authors: Patiño A, Seguro V, Ruiz S, Castañeda X, Hernández M, Cardona J, Rodríguez T",
+    status: "Submitted to Social Sciences & Humanities Open",
+    link: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6555980",
+    linkLabel: "SSRN preprint",
+    tags: ["Bayesian Statistics", "Multinomial", "Bayesian ANOVA", "Public Health", "Social Science"]
+  },
+  {
+    title: "Adaptive Bayesian Evidence for Binary Pretest–Posttest Data Observed Through Marginal Totals",
+    description: "A Bayesian test compares pretest–posttest proportions from marginal counts using a composite likelihood and a bivariate beta prior. A closed-form normalizing constant enables Full Bayesian Significance Test (FBST) evidence and an adaptive cutoff that minimizes the sum of prior-averaged type-I and type-II error probabilities. A vaping-prevention application examines unlinked responses and changing sample composition.",
+    collaborators: "Authors: Patiño A, Cardona J, Rodríguez T",
+    status: "Manuscript in preparation",
+    tags: ["Bayesian Statistics", "FBST", "Composite Likelihood", "Pretest–Posttest", "Public Health"]
   },
   {
     title: "Bayesian Modelling for Contamination in Geoscientific Applications",
@@ -74,7 +86,7 @@ export interface Grant {
 export const GRANTS: Grant[] = [
   {
     years: "2026 – 2027",
-    title: "Spatio-Temporal Modeling of High Quantiles of PM2.5 Pollution in the Aburrá Valley",
+    title: "Spatio-Temporal Modeling of High Quantiles of PM₂.₅ Pollution in the Aburrá Valley",
     role: "Proposal author",
     director: "Johnatan Cardona Jiménez PhD",
     sponsor: "National University of Colombia, Medellín (HERMES Project 4275)",
@@ -89,9 +101,10 @@ export const CONFERENCES: ConferenceYear[] = [
       {
         name: "GEOMED 2026",
         location: "Pamplona, Spain",
+        date: "27 June 2026",
         presentations: [
           { topic: "Bivariate spatial analysis of sexual and non-sexual violence against women in Colombia", type: "Poster" },
-          { topic: "Spatial Bayesian Modelling and Assessment of Posterior Approximation Algorithms", type: "Poster" }
+          { topic: "Spatial Bayesian Modeling and Assessment of Posterior Approximation Algorithms", type: "Poster" }
         ]
       }
     ]
@@ -100,18 +113,20 @@ export const CONFERENCES: ConferenceYear[] = [
     year: "2025",
     conferences: [
       {
-        name: "Congreso Nacional de Estadística",
-        location: "Bogotá, Colombia",
+        name: "2nd Latin American Conference on Spatio-Temporal Modelling (METMA LATAM II)",
+        location: "Barranquilla, Colombia",
+        date: "27 June 2025",
         presentations: [
-          { topic: "Algorithm for Bayesian quantile regression under hierarchical data", type: "Talk" },
-          { topic: "Analytics tools for the study of gender-based violence in Colombia", type: "Talk" }
+          { topic: "Bayesian Spatio-Temporal Modeling of Gender-Based Violence: The Case of Medellín, Colombia", type: "Poster" }
         ]
       },
       {
-        name: "METMA II",
-        location: "Barranquilla, Colombia",
+        name: "IV Colombian Congress of Statistics",
+        location: "Bogotá, Colombia",
+        date: "27 May 2025",
         presentations: [
-          { topic: "Spatio-temporal modelling of gender-based violence in Antioquia", type: "Poster" }
+          { topic: "Bayesian Quantile Regression Applied to Colombia's Saber 11 Exam Data", type: "Talk" },
+          { topic: "Analytical Tools for the Study of Gender-Based Violence and Its Impact on the Mental Health of Women and Girls in Colombia", type: "Talk" }
         ]
       }
     ]
@@ -120,11 +135,12 @@ export const CONFERENCES: ConferenceYear[] = [
     year: "2024",
     conferences: [
       {
-        name: "ISBA World Meeting",
+        name: "2024 ISBA World Meeting",
         location: "Venice, Italy",
+        date: "1 July 2024",
         presentations: [
-          { topic: "Modeling geochemical risk in the Huelva Province", type: "Poster" },
-          { topic: "Sensitivity analysis and application of Bayesian quantile regression to Prueba Saber 11 in Antioquia", type: "Poster" }
+          { topic: "Bayesian Analysis of Geochemical Risk in the Province of Huelva, Spain", type: "Poster" },
+          { topic: "Bayesian Sensitivity Analysis for Quantile Regression with an Application to Saber 11", type: "Poster" }
         ]
       }
     ]
