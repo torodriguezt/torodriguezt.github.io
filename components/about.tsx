@@ -1,3 +1,5 @@
+import { EDUCATION, ORGS, ORG_LOCATIONS, UI } from "@/lib/data/experience"
+
 const PARA_1 =
   "I study Statistics at the National University of Colombia, with graduation expected in December 2026. I have completed the academic requirements for Systems and Computer Science Engineering at the same university, with degree conferral pending."
 
@@ -37,6 +39,29 @@ export default function About() {
             <p className="mt-5 max-w-[62ch] text-pretty text-[16px] leading-[1.68] text-ink2 sm:text-[16.5px]">
               {PARA_3}
             </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="rise-3 mx-auto max-w-[900px] px-6 pt-10 sm:px-8">
+        <div className="grid gap-6 border-t border-rule pt-10 sm:grid-cols-[168px_1fr]">
+          <h2 className="pt-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-dim">
+            {UI.education}
+          </h2>
+          <div className="flex flex-col gap-5">
+            {EDUCATION.map((edu) => (
+              <div key={edu.degree}>
+                <h3 className="text-[15.5px] font-semibold tracking-[-0.01em] text-ink">
+                  {edu.degree}
+                </h3>
+                <p className="mt-1 text-sm text-ink2">
+                  {ORGS[edu.org]} · {ORG_LOCATIONS[edu.org]}
+                </p>
+                <p className="mt-1 font-mono text-[11.5px] leading-[1.6] text-dim">{edu.period}</p>
+                {edu.details && <p className="mt-1 text-sm text-ink2">{edu.details}</p>}
+              </div>
+            ))}
+            <p className="text-sm text-ink2">{UI.educationGpa}</p>
           </div>
         </div>
       </section>
