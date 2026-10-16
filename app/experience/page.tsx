@@ -1,5 +1,5 @@
 import PageHeader from "@/components/page-header"
-import { EDUCATION, JOBS, ORGS, ORG_LOCATIONS, UI, type OrgKey } from "@/lib/data/experience"
+import { JOBS, ORGS, ORG_LOCATIONS, UI, type OrgKey } from "@/lib/data/experience"
 
 const ORG_ORDER: OrgKey[] = ["kaust", "unal", "ic"]
 
@@ -15,9 +15,9 @@ export default function ExperiencePage() {
     <>
       <PageHeader title={UI.title} />
 
-      <section className="rise-2 mx-auto max-w-[900px] px-6 pt-11 sm:px-8">
+      <section className="rise-2 mx-auto max-w-[900px] px-6 pb-24 pt-11 sm:px-8">
         {groups.map((group) => (
-          <div key={group.key} className="mb-11">
+          <div key={group.key} className="mb-11 last:mb-0">
             <div className="flex flex-col gap-2 border-b border-rule pb-3 sm:flex-row sm:items-baseline sm:justify-between sm:gap-5">
               <h2 className="text-[19px] font-semibold tracking-[-0.015em] text-ink">{group.org}</h2>
               <span className="whitespace-nowrap font-mono text-xs text-dim">{group.range}</span>
@@ -46,30 +46,6 @@ export default function ExperiencePage() {
             </div>
           </div>
         ))}
-      </section>
-
-      <section className="rise-3 mx-auto max-w-[900px] px-6 pb-24 sm:px-8">
-        <div className="border-t border-rule pt-[26px]">
-          <h2 className="mb-[22px] font-mono text-[11px] uppercase tracking-[0.14em] text-dim">
-            {UI.education}
-          </h2>
-          {EDUCATION.map((edu) => (
-            <div key={edu.degree} className="grid gap-2 pb-[18px] sm:grid-cols-[150px_1fr] sm:gap-5">
-              <div className="min-w-0 text-dim sm:pt-1">
-                <p className="font-mono text-[11.5px] leading-[1.6]">{edu.period}</p>
-                <p className="mt-1 text-xs leading-[1.6]">{ORG_LOCATIONS[edu.org]}</p>
-              </div>
-              <div>
-                <h3 className="text-[15.5px] font-semibold tracking-[-0.01em] text-ink">
-                  {edu.degree}
-                </h3>
-                <p className="mt-1 text-sm text-ink2">{ORGS[edu.org]}</p>
-                {edu.details && <p className="mt-1 text-sm text-ink2">{edu.details}</p>}
-              </div>
-            </div>
-          ))}
-          <p className="text-sm text-ink2 sm:pl-[170px]">{UI.educationGpa}</p>
-        </div>
       </section>
     </>
   )
