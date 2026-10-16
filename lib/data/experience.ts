@@ -41,12 +41,12 @@ export const JOBS: Job[] = [
     summary: "BAYESCOMP — Bayesian Computational Statistics and Modeling Research Group. Faculty host: Prof. Håvard Rue."
   },
   {
-    org: "unal", kind: "research", period: "Sep 2023 – Present",
+    org: "unal", kind: "research", period: "Sep 2023 – Nov 2026",
     title: "Research Assistant — Department of Statistics",
     summary: "Research with Prof. Johnatan Cardona Jiménez on Bayesian spatial and spatio-temporal modeling, hierarchical and survey quantile regression, FBST, and uncertainty quantification in machine learning. Collaborated with faculty in statistics, geology, and political science, as well as graduate students; co-authored manuscripts and preprints, developed open-source R and Python software, and contributed to a successful grant proposal on spatio-temporal air pollution modeling in the Aburrá Valley."
   },
   {
-    org: "unal", kind: "teaching", period: "Feb 2026 – Present",
+    org: "unal", kind: "teaching", period: "Feb 2026 – Nov 2026",
     title: "Teaching Assistant — Statistics II",
     summary: "Developed R and Python teaching materials and led tutorials on regression, model assessment, regularization, cross-validation, and explainable AI for over 120 undergraduate students."
   },
@@ -78,5 +78,5 @@ export const UI: ExperienceUI = {
   title: "Experience",
   education: "Education",
   educationGpa: "Cumulative GPA: 4.7/5.0",
-  orgRange: { kaust: "2026 – 2027", unal: "2023 – Present", ic: "2025 – 2026" },
+  orgRange: { kaust: "2026 – 2027", unal: "2023 – 2026", ic: "2025 – 2026" },
 }
