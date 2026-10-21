@@ -41,7 +41,7 @@ export const PAPERS: Paper[] = [
     title: "bayesQRsurvey: Bayesian Quantile Regression Approach for Complex Survey Data in R",
     description: "The bayesQRsurvey R package implements Bayesian quantile regression for complex surveys under informative sampling using survey-weighted pseudo-likelihoods. It supports single- and multiple-output models with MCMC and expectation–maximization routines implemented in C++ through Rcpp. The article illustrates posterior summaries, convergence assessment, and predictive analyses with real survey data.",
     collaborators: "Authors: Rodríguez T, Cardona J, Nascimento ML, Gonçalves KCM",
-    status: "Under revision",
+    status: "Revising for resubmission",
     journal: "Journal of Statistical Software",
     tags: ["R", "C++", "Bayesian", "Quantile Regression", "Survey Statistics"]
   },

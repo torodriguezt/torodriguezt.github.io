@@ -13,7 +13,7 @@ export default function ResearchPage() {
 
         <ol className="m-0 list-none p-0">
           {PAPERS.map((paper) => {
-            const editorialStage = ["Accepted", "Under revision", "Submitted"].includes(paper.status)
+            const editorialStage = ["Accepted", "Submitted"].includes(paper.status)
             return (
               <li key={paper.title} className="border-b border-rule py-[26px]">
                 <div className="mb-3 flex flex-wrap items-center gap-3">
