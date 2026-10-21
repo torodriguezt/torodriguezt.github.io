@@ -4,16 +4,16 @@ import { CONFERENCES, GRANTS, PAPERS } from "@/lib/data/research"
 export default function ResearchPage() {
   return (
     <>
-      <PageHeader title="Research" subtitle="Preprints, manuscripts, research grants, and conference presentations." />
+      <PageHeader title="Research" subtitle="Publications, preprints, research grants, and conference presentations." />
 
       <section className="rise-2 mx-auto max-w-[900px] px-6 pt-[52px] sm:px-8">
         <div className="flex items-baseline gap-3.5 border-b border-rule pb-2">
-          <h2 className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink">Preprints and manuscripts</h2>
+          <h2 className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink">Publications and preprints</h2>
         </div>
 
         <ol className="m-0 list-none p-0">
           {PAPERS.map((paper) => {
-            const editorialStage = paper.status === "Under revision" || paper.status === "Submitted"
+            const editorialStage = ["Accepted", "Under revision", "Submitted"].includes(paper.status)
             return (
               <li key={paper.title} className="border-b border-rule py-[26px]">
                 <div className="mb-3 flex flex-wrap items-center gap-3">
