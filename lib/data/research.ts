@@ -28,22 +28,22 @@ export interface ConferenceYear {
 
 export const PAPERS: Paper[] = [
   {
+    title: "Violence Against Women in Colombia: A Bayesian Analysis Approach to a Wicked Policy Problem",
+    description: "A Bayesian multinomial logistic model examines multiple typologies of violence against women using Colombian administrative records of non-lethal injuries from 2015–2024. Bayesian ANOVA assesses the relative contributions of explanatory dimensions, accounting for uncertainty and supporting context-sensitive public decision-making within Colombia’s normative framework.",
+    collaborators: "Authors: Patiño A, Seguro V, Ruiz S, Castañeda X, Hernández M, Cardona J, Rodríguez T",
+    status: "Accepted",
+    journal: "Social Sciences & Humanities Open",
+    link: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6555980",
+    linkLabel: "SSRN preprint",
+    tags: ["Bayesian Statistics", "Multinomial", "Bayesian ANOVA", "Public Health", "Social Science"]
+  },
+  {
     title: "bayesQRsurvey: Bayesian Quantile Regression Approach for Complex Survey Data in R",
     description: "The bayesQRsurvey R package implements Bayesian quantile regression for complex surveys under informative sampling using survey-weighted pseudo-likelihoods. It supports single- and multiple-output models with MCMC and expectation–maximization routines implemented in C++ through Rcpp. The article illustrates posterior summaries, convergence assessment, and predictive analyses with real survey data.",
     collaborators: "Authors: Rodríguez T, Cardona J, Nascimento ML, Gonçalves KCM",
     status: "Under revision",
     journal: "Journal of Statistical Software",
     tags: ["R", "C++", "Bayesian", "Quantile Regression", "Survey Statistics"]
-  },
-  {
-    title: "Violence Against Women in Colombia: A Bayesian Analysis Approach to a Wicked Policy Problem",
-    description: "A Bayesian multinomial logistic model examines multiple typologies of violence against women using Colombian administrative records of non-lethal injuries from 2015–2024. Bayesian ANOVA assesses the relative contributions of explanatory dimensions, accounting for uncertainty and supporting context-sensitive public decision-making within Colombia’s normative framework.",
-    collaborators: "Authors: Patiño A, Seguro V, Ruiz S, Castañeda X, Hernández M, Cardona J, Rodríguez T",
-    status: "Submitted",
-    journal: "Social Sciences & Humanities Open",
-    link: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6555980",
-    linkLabel: "SSRN preprint",
-    tags: ["Bayesian Statistics", "Multinomial", "Bayesian ANOVA", "Public Health", "Social Science"]
   },
   {
     title: "Scalable Bayesian Quantile Regression via EM and INLA: The EM-INLA Algorithm",
