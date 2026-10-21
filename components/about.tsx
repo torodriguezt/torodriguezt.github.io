@@ -81,7 +81,7 @@ export default function About() {
           <span className="mr-3 font-mono text-[11px] uppercase tracking-[0.12em] text-ink">
             Languages
           </span>
-          Spanish (native) · English (C1)
+          Spanish (native) · English (C1, IELTS Band 8.0)
         </p>
       </section>
     </>
